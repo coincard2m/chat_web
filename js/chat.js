@@ -1087,6 +1087,18 @@ function renderConvList(filter = '') {
     emptyDiv.textContent = 'Không có hội thoại nào.';
     convList.appendChild(emptyDiv);
   }
+
+  // Update nav unread badge
+  const navBadge = document.getElementById('nav-msg-badge');
+  if (navBadge) {
+    const totalUnread = Object.values(friendsCache).reduce((sum, c) => sum + (Number(c?.unread) || 0), 0);
+    if (totalUnread > 0) {
+      navBadge.textContent = totalUnread > 99 ? '99+' : totalUnread;
+      navBadge.style.display = '';
+    } else {
+      navBadge.style.display = 'none';
+    }
+  }
 }
 
 let searchDebounceMain;
@@ -3122,6 +3134,7 @@ if (btnChangeHidePin) {
     
     openUnlockModal(null, (rId) => {
       // Callback after successfully entering CURRENT PIN
+      // Close unlock modal then show set-new-pin modal
       setTimeout(() => {
         convCtxTargetRoomId = '__CHANGE_GLOBAL_PIN__';
         pinSetBuf = pinConfirmBuf = pinToSave = '';
@@ -3130,8 +3143,13 @@ if (btnChangeHidePin) {
         document.getElementById('hide-pin-confirm-error').textContent = '';
         document.getElementById('hide-pin-step1').style.display = 'block';
         document.getElementById('hide-pin-step2').style.display = 'none';
+        // Ensure settings modal is hidden
+        settingsModal.style.display = 'none';
+        settingsModal.style.zIndex = '';
+        // Bring hideConvModal to front
+        hideConvModal.style.zIndex = '3000';
         hideConvModal.style.display = 'flex';
-      }, 300); // small delay to allow unlock modal to close smoothly
+      }, 50);
     }, "Nhập mã PIN hiện tại");
   });
 }
@@ -4522,7 +4540,8 @@ document.addEventListener('click', (e) => {
 });
 
 document.getElementById('hide-conv-modal-close')?.addEventListener('click', () => { 
-  hideConvModal.style.display = 'none'; 
+  hideConvModal.style.display = 'none';
+  hideConvModal.style.zIndex = '';
   // Revert toggle if activeRoomId was the target and it's not hidden
   if (activeRoomId && activeRoomId === convCtxTargetRoomId && !isConvHidden(activeRoomId)) {
     const toggle = document.getElementById('btn-info-hide-conv');
@@ -4559,7 +4578,7 @@ hideConvModal?.addEventListener('click', (e) => {
     } else if (btn.dataset.n !== undefined && pinSetBuf.length < 5) {
       pinSetBuf += btn.dataset.n;
       updatePinDots(pinSetBuf, 'set');
-      if (pinSetBuf.length === 5) document.getElementById('pin-key-ok-set').click();
+      if (pinSetBuf.length === 5) setTimeout(() => document.getElementById('pin-key-ok-set')?.click(), 0);
     }
     return;
   }
@@ -4612,7 +4631,7 @@ hideConvModal?.addEventListener('click', (e) => {
     } else if (btn.dataset.n !== undefined && pinConfirmBuf.length < 5) {
       pinConfirmBuf += btn.dataset.n;
       updatePinDots(pinConfirmBuf, 'confirm');
-      if (pinConfirmBuf.length === 5) document.getElementById('pin-key-ok-confirm').click();
+      if (pinConfirmBuf.length === 5) setTimeout(() => document.getElementById('pin-key-ok-confirm')?.click(), 0);
     }
   }
 });
@@ -4730,7 +4749,7 @@ unlockConvModal?.addEventListener('click', (e) => {
   } else if (btn.dataset.n !== undefined && pinUnlockBuf.length < 5) {
     pinUnlockBuf += btn.dataset.n;
     updatePinDots(pinUnlockBuf, 'unlock');
-    if (pinUnlockBuf.length === 5) document.getElementById('pin-key-ok-unlock').click();
+    if (pinUnlockBuf.length === 5) setTimeout(() => document.getElementById('pin-key-ok-unlock')?.click(), 0);
   }
 });
 
