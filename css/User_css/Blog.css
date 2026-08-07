@@ -1,0 +1,54 @@
+/* Hiệu ứng mượt mà khi di chuột và phóng to nhẹ thẻ bài viết */
+.article-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.article-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.08);
+}
+/* Tùy chỉnh thanh cuộn của vùng xem nội dung modal */
+#modal-content::-webkit-scrollbar {
+    width: 6px;
+}
+#modal-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+#modal-content::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+#modal-content::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/*Animtaion cho thanh tìm kiếm*/
+/*Đổi màu input*/
+#search-input::placeholder{
+    animation: placeholderColor 3s infinite;
+}
+
+@keyframes placeholderColor{
+
+    0%,100%{
+        color:#9ca3af;
+    }
+
+    50%{
+        color:#10b981;
+    }
+
+}
+/*icon nhún nhẹ*/
+
+@keyframes floatIcon{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-3px);
+    }
+
+}

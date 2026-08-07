@@ -1,0 +1,117 @@
+/* Hiệu ứng xuất hiện mượt mà cho phần kết quả cho form Theo dõi báo cáo */
+.dynamic-fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Custom Scrollbar Siêu Mỏng, Đẹp & Tích Hợp */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 8px 0; /* Cách góc bo tròn 1 chút để không bị lẹm viền */
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.4); /* Tailwind gray-400 */
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(107, 114, 128, 0.7); /* Tailwind gray-500 */
+}
+/* Scrollbar cho Dark Mode */
+.dark ::-webkit-scrollbar-thumb {
+    background-color: rgba(71, 85, 105, 0.6); /* Tailwind slate-600 */
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(100, 116, 139, 0.9); /* Tailwind slate-500 */
+}
+
+/* Cho Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+/* Hiệu ứng mờ biên dưới giúp người dùng nhận biết danh sách còn kéo xuống được */
+.scroll-fade-bottom {
+    -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+}
+
+/* ====================== CHẾ ĐỘ GIẢM HIỆU ỨNG (LOW PERFORMANCE) ====================== */
+.low-perf *, 
+.low-perf *::before, 
+.low-perf *::after {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+
+/* Đảm bảo độ tương phản chữ chuẩn Material Design 3 (M3) trong Dark Mode */
+.dark .text-gray-400,
+.dark .text-gray-500 {
+    color: #CAC4D0 !important; /* M3 On Surface Variant */
+}
+
+.dark .text-gray-600,
+.dark .text-gray-700,
+.dark .text-gray-800,
+.dark .text-gray-900,
+.dark .text-gray-950 {
+    color: #E6E0E9 !important; /* M3 On Surface */
+}
+
+/* Các đoạn text phụ hoặc miêu tả cần độ sáng tốt hơn để không bị mờ */
+.dark p, .dark span.text-xs {
+    opacity: 1 !important;
+}
+
+/* ===================== DARK MODE INPUT CONTRAST ===================== */
+/* Đảm bảo input, select, textarea trong dark mode luôn có màu chữ rõ ràng */
+.dark input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+.dark select,
+.dark textarea {
+    color: #E6E0E9 !important;
+    background-color: #2A2830 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+    color: #6B6876 !important;
+    opacity: 1 !important;
+}
+
+/* Đảm bảo các input đã điền giá trị vẫn hiển thị rõ */
+.dark input[value]:not([value=""]),
+.dark select option {
+    color: #E6E0E9 !important;
+    background-color: #2A2830 !important;
+}
+/* LOW PERFORMANCE MODE */
+body.low-perf * {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    animation: none !important;
+    box-shadow: none !important;
+}
+body.low-perf .bg-white\/80, body.low-perf .bg-white\/90 {
+    background-color: #ffffff !important;
+}
+body.low-perf .dark\:bg-\[\#1E293B\]\/80, body.low-perf .dark\:bg-\[\#1E293B\]\/90 {
+    background-color: #1E293B !important;
+}
+body.low-perf .bg-white\/60 {
+    background-color: #f3f4f6 !important;
+}
