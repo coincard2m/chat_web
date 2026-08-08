@@ -82,18 +82,6 @@ function initReportForm() {
                     }
 
                     const currentUser = localStorage.getItem('currentUser') || 'Anonymous';
-
-                    const recaptchaResponse = grecaptcha.getResponse();
-                    if (!recaptchaResponse) {
-                        alert("Vui lòng xác minh bạn không phải là robot.");
-                        if (submitBtn) {
-                            submitBtn.disabled = false;
-                            submitBtn.innerHTML = '🛡️ Gửi Báo Cáo Bảo Mật';
-                        }
-                        return;
-                    }
-
-                    // Tùy chọn: Gọi backend verify token. Tạm thời pass qua nếu không cần verify chặt chẽ ở frontend vì CORS.
                     
                     const lowerContent = content.toLowerCase();
                     let isSuspectedFake = false;
