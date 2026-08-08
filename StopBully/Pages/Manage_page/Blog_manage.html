@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Các bài tuyên truyền - Phòng Chống Bạo Lực Học Đường (Admin)</title>
+
+    <link rel="stylesheet" href="/css/Admin_css/Blog_admin.css">
+    <link rel="stylesheet" href="/css/Admin_css/navbar_admin.css">
+    <link rel="stylesheet" href="/css/main.css"> <!--Css chính cho trang-->
+    <link rel="stylesheet" href="/css/Account_page.css">
+    
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@400;500;600;700&display=swap">
+    
+    <!-- Tailwind CSS qua CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = { darkMode: 'class',
+            content: [],
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Be Vietnam', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .scrollbar-hidden::-webkit-scrollbar { display: none; }
+        .scrollbar-hidden { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 dark:bg-[#141218] text-gray-800 dark:text-[#E6E0E9]">
+    <div id="navbar"></div>
+
+    <!-- Thân trang (Workspace chính) -->
+    <div class="flex-1 max-w-7xl mx-auto w-full px-4 py-8 md:py-12 mt-4">
+        
+        <!-- Tiêu đề & Giới thiệu -->
+        <div class="text-center space-y-3 mb-10 md:mb-12 animate-fade-in">
+            <div class="inline-flex items-center gap-1.5 px-3.5 py-1 bg-indigo-100 rounded-full text-xs font-bold text-indigo-800 uppercase tracking-wide">
+                📢 Góc Tuyên Truyền & Giáo Dục
+            </div>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-950 dark:text-[#E6E0E9] tracking-tight">
+                Cẩm Nang Phòng Chống Bạo Lực Học Đường
+            </h1>
+            <p class="text-gray-500 dark:text-[#CAC4D0] max-w-2xl mx-auto text-[15px] md:text-base leading-relaxed">
+                Hệ thống quản trị nội dung bài viết, cẩm nang tuyên truyền, kỹ năng sống và các quy định quy chế học đường dành cho học sinh.
+            </p>
+        </div>
+
+        <!-- KHU VỰC CAROUSEL NỔI BẬT DÀNH CHO ADMIN -->
+        <div class="max-w-4xl mx-auto mb-14 relative group">
+            <div class="relative overflow-hidden rounded-3xl bg-white dark:bg-[#211F26] border border-gray-100 dark:border-[#49454F]/50 shadow-sm aspect-[16/9] sm:aspect-[21/9]">
+                <div id="carousel-wrapper" class="flex h-full w-full transition-transform duration-500 ease-out">
+                    <!-- Data Slider sẽ đổ động từ JavaScript của admin -->
+                </div>
+            </div>
+
+            <!-- Nút điều khiển -->
+            <button onclick="prevSlide()" class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white dark:bg-[#211F26]/80 backdrop-blur-md shadow border border-gray-100 dark:border-[#49454F]/50 flex items-center justify-center hover:bg-white dark:bg-[#211F26] active:scale-90 transition opacity-0 group-hover:opacity-100 z-10">
+                &lt;
+            </button>
+            <button onclick="nextSlide()" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white dark:bg-[#211F26]/80 backdrop-blur-md shadow border border-gray-100 dark:border-[#49454F]/50 flex items-center justify-center hover:bg-white dark:bg-[#211F26] active:scale-90 transition opacity-0 group-hover:opacity-100 z-10">
+                &gt;
+            </button>
+
+            <!-- Chỉ báo chấm tròn -->
+            <div id="carousel-indicators" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10"></div>
+        </div>
+
+        <!-- Khung tìm kiếm bài viết & Bộ lọc danh mục -->
+        <div class="space-y-4 mb-8">
+            <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+                <div class="relative w-full md:max-w-md">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">🔍</span>
+                    <input type="text" id="search-input" oninput="handleSearch()" placeholder="Tìm kiếm bài viết, kỹ năng, từ khóa..." 
+                        class="w-full pl-10 pr-4 py-3 bg-white dark:bg-[#211F26] border border-gray-200 dark:border-[#49454F]/50 rounded-2xl text-[15px] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
+                </div>
+                
+                <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end shrink-0">
+                    <div class="text-xs text-gray-400 font-medium shrink-0">
+                        Hiển thị: <span id="article-count" class="text-indigo-600 font-bold text-[15px]">0</span> bài viết tuyên truyền
+                    </div>
+
+                    <!-- NÚT THÊM BÀI VIẾT (Dành riêng cho giao diện Admin) -->
+                    <button id="btn-add-article" onclick="openCreateArticleModal()" 
+                            class="font-sans px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-bold transition-all active:scale-95 flex items-center gap-1.5 shadow-md shadow-indigo-100">
+                        <span>➕</span> Thêm bài viết
+                    </button>
+                </div>
+            </div>
+
+            <!-- Các nút bấm lọc nhanh theo danh mục -->
+            <div class="flex flex-wrap gap-2 pt-2 border-t border-gray-100 dark:border-[#49454F]/50">
+                <button onclick="filterCategory('All')" class="category-btn px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-semibold transition-all active:scale-95">🌍 Tất cả</button>
+                <button onclick="filterCategory('Knowledge')" class="category-btn px-4 py-2 bg-white dark:bg-[#211F26] border border-gray-100 dark:border-[#49454F]/50 text-gray-600 dark:text-[#CAC4D0] hover:bg-gray-50 dark:bg-[#141218] dark:hover:bg-[#36343B] rounded-xl text-sm font-semibold transition-all active:scale-95">📖 Kiến thức</button>
+                <button onclick="filterCategory('Prevention')" class="category-btn px-4 py-2 bg-white dark:bg-[#211F26] border border-gray-100 dark:border-[#49454F]/50 text-gray-600 dark:text-[#CAC4D0] hover:bg-gray-50 dark:bg-[#141218] dark:hover:bg-[#36343B] rounded-xl text-sm font-semibold transition-all active:scale-95">🛡️ Phòng ngừa</button>
+                <button onclick="filterCategory('Skills')" class="category-btn px-4 py-2 bg-white dark:bg-[#211F26] border border-gray-100 dark:border-[#49454F]/50 text-gray-600 dark:text-[#CAC4D0] hover:bg-gray-50 dark:bg-[#141218] dark:hover:bg-[#36343B] rounded-xl text-sm font-semibold transition-all active:scale-95">💪 Kỹ năng tự vệ</button>
+                <button onclick="filterCategory('Law')" class="category-btn px-4 py-2 bg-white dark:bg-[#211F26] border border-gray-100 dark:border-[#49454F]/50 text-gray-600 dark:text-[#CAC4D0] hover:bg-gray-50 dark:bg-[#141218] dark:hover:bg-[#36343B] rounded-xl text-sm font-semibold transition-all active:scale-95">⚖️ Pháp luật & Quy chế</button>
+            </div>
+        </div>
+
+        <!-- Khung lưới hiển thị danh sách các bài viết -->
+        <div id="articles-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <!-- Dữ liệu bài viết được chèn động tại đây -->
+        </div>
+
+        <!-- Giao diện trống khi không tìm thấy kết quả -->
+        <div id="empty-state" class="hidden text-center py-16 space-y-4">
+            <div class="text-5xl">📭</div>
+            <h3 class="text-lg font-bold text-gray-800 dark:text-[#E6E0E9]">Không tìm thấy bài viết nào</h3>
+            <p class="text-[15px] text-gray-400 max-w-sm mx-auto">Vui lòng thử tìm kiếm với từ khóa khác hoặc chuyển danh mục bộ lọc.</p>
+        </div>
+    </div>
+
+    <!-- Hộp thoại Modal: Xem chi tiết bài tuyên truyền & Tạo Form điền cho Admin -->
+    <div id="article-modal" class="fixed inset-0 z-[100] hidden bg-gray-900/60 backdrop-blur-sm items-center justify-center p-4 md:p-6 transition-all duration-300">
+        <div class="bg-white dark:bg-[#211F26] w-full max-w-3xl max-h-[90vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden transform scale-95 opacity-0 transition-all duration-300 dynamic-modal-content">
+            
+            <div class="px-6 py-4 border-b border-gray-100 dark:border-[#49454F]/50 flex items-center justify-between bg-gray-50 dark:bg-[#141218]/50">
+                <div class="flex items-center gap-2">
+                    <span id="modal-badge" class="px-3 py-1 bg-indigo-100 text-indigo-800 text-xs font-bold rounded-md uppercase">Danh mục</span>
+                    <span id="modal-time" class="text-sm text-gray-400 font-medium flex items-center gap-1">⏱️ 5 phút đọc</span>
+                </div>
+                <button onclick="closeArticleModal()" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 dark:text-[#CAC4D0] hover:bg-gray-100 dark:bg-[#2B2930] dark:hover:bg-[#36343B] rounded-xl transition text-lg font-bold">✕</button>
+            </div>
+            
+            <!-- Phần Thân hiển thị tích hợp Form quản trị -->
+            <div class="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-thin">
+                
+                <!-- Vùng hiển thị xem trước hoặc ảnh bìa chế độ đọc -->
+                <div id="modal-image-container" class="w-full aspect-[21/9] rounded-2xl overflow-hidden bg-gray-100 dark:bg-[#2B2930] shadow-inner">
+                    <img id="modal-image" src="" alt="Hình ảnh chi tiết" class="w-full h-full object-cover">
+                </div>
+
+                <!-- Form chỉnh sửa bài viết (Thiết kế chi tiết, đầy đủ thông tin) -->
+                <form id="article-form" class="hidden space-y-5" onsubmit="saveArticle(event)">
+                    <input type="hidden" id="article-id">
+                    
+                    <!-- Lưới 2 cột hiển thị chuyên nghiệp -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        
+                        <!-- CỘT TRÁI: THÔNG TIN VĂN BẢN -->
+                        <div class="space-y-4">
+                            <!-- Tiêu đề bài viết -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 dark:text-[#CAC4D0] uppercase tracking-wider mb-1">Tiêu đề bài viết tuyên truyền <span class="text-red-500">*</span></label>
+                                <input type="text" id="input-title" required placeholder="Nhập tiêu đề đầy đủ..." class="w-full px-3 py-2 bg-gray-50 dark:bg-[#141218] border border-gray-200 dark:border-[#49454F]/50 focus:border-indigo-500 focus:bg-white dark:bg-[#211F26] rounded-xl text-[15px] outline-none transition-all">
+                            </div>
+
+                            <!-- Chuyên mục & Tác giả -->
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-[#CAC4D0] uppercase tracking-wider mb-1">Chuyên mục <span class="text-red-500">*</span></label>
+                                    <select id="input-category" class="w-full px-3 py-2 bg-gray-50 dark:bg-[#141218] border border-gray-200 dark:border-[#49454F]/50 focus:border-indigo-500 focus:bg-white dark:bg-[#211F26] rounded-xl text-[15px] outline-none transition-all">
+                                        <option value="Prevention">🛡️ Phòng ngừa</option>
+                                        <option value="Knowledge">📖 Kiến thức nền tảng</option>
+                                        <option value="Skills">💪 Kỹ năng tự vệ</option>
+                                        <option value="Law">⚖️ Pháp luật & Quy chế</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-[#CAC4D0] uppercase tracking-wider mb-1">Tác giả / Nguồn <span class="text-red-500">*</span></label>
+                                    <input type="text" id="input-author" required placeholder="BGH / Tổ Tâm Lý..." class="w-full px-3 py-2 bg-gray-50 dark:bg-[#141218] border border-gray-200 dark:border-[#49454F]/50 focus:border-indigo-500 focus:bg-white dark:bg-[#211F26] rounded-xl text-[15px] outline-none transition-all">
+                                </div>
+                            </div>
+
+                            <!-- Thời gian đọc & Đính kèm tài liệu -->
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-[#CAC4D0] uppercase tracking-wider mb-1">Thời gian đọc (phút)</label>
+                                    <input type="number" id="input-readtime" min="1" max="60" placeholder="Ví dụ: 5" class="w-full px-3 py-2 bg-gray-50 dark:bg-[#141218] border border-gray-200 dark:border-[#49454F]/50 focus:border-indigo-500 focus:bg-white dark:bg-[#211F26] rounded-xl text-[15px] outline-none transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-[#CAC4D0] uppercase tracking-wider mb-1">Đính kèm tài liệu (URL PDF)</label>
+                                    <input type="url" id="input-pdf-link" placeholder="https://drive.google.com/.../view" class="w-full px-3 py-2 bg-gray-50 dark:bg-[#141218] border border-gray-200 dark:border-[#49454F]/50 focus:border-indigo-500 focus:bg-white dark:bg-[#211F26] rounded-xl text-[15px] outline-none transition-all">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CỘT PHẢI: ĐƯỜNG DẪN ẢNH & XEM TRƯỚC -->
+                        <div class="flex flex-col justify-between">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 dark:text-[#CAC4D0] uppercase tracking-wider mb-1">Đường dẫn ảnh bìa (URL Ảnh) <span class="text-red-500">*</span></label>
+                                <input type="url" id="input-image" required placeholder="https://images.unsplash.com/..." class="w-full px-3 py-2 bg-gray-50 dark:bg-[#141218] border border-gray-200 dark:border-[#49454F]/50 focus:border-indigo-500 focus:bg-white dark:bg-[#211F26] rounded-xl text-[15px] outline-none transition-all" onchange="document.getElementById('modal-image').src = this.value">
+                            </div>
+                            <div class="mt-2 flex-1 flex flex-col justify-center">
+                                <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Xem trước ảnh bìa hiển thị:</span>
+                                <div class="relative w-full aspect-video rounded-xl overflow-hidden border border-gray-200 dark:border-[#49454F]/50 bg-gray-50 dark:bg-[#141218] flex items-center justify-center">
+                                    <img id="form-preview-image" src="" alt="" class="absolute inset-0 w-full h-full object-cover z-10" onerror="this.style.opacity='0';">
+                                    <span class="text-sm text-gray-400 font-medium">Chưa có liên kết ảnh hợp lệ</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PHẦN TÓM TẮT & NỘI DUNG CHI TIẾT -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-[#CAC4D0] uppercase tracking-wider mb-1">Mô tả ngắn / Tóm tắt danh sách bài viết (Tối đa 160 ký tự) <span class="text-red-500">*</span></label>
+                            <textarea id="input-summary" required maxlength="160" rows="2" placeholder="Tóm tắt ngắn gọn nội dung bài viết để học sinh/phụ huynh nắm bắt nhanh khi lướt xem..." class="w-full px-3 py-2 bg-gray-50 dark:bg-[#141218] border border-gray-200 dark:border-[#49454F]/50 focus:border-indigo-500 focus:bg-white dark:bg-[#211F26] rounded-xl text-[15px] outline-none transition-all resize-none leading-relaxed"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-[#CAC4D0] uppercase tracking-wider mb-1">Nội dung tuyên truyền chi tiết <span class="text-red-500">*</span></label>
+                            <textarea id="input-content" required rows="6" placeholder="Nhập toàn bộ nội dung kiến thức, kỹ năng, hướng dẫn chi tiết tại đây..." class="w-full px-3 py-2 bg-gray-50 dark:bg-[#141218] border border-gray-200 dark:border-[#49454F]/50 focus:border-indigo-500 focus:bg-white dark:bg-[#211F26] rounded-xl text-[15px] outline-none transition-all font-sans leading-relaxed"></textarea>
+                            <p class="text-sm text-gray-400 mt-1">💡 Mẹo: Nội dung nên chia rõ ràng các đề mục lớn bằng số (1, 2, 3...) để người xem dễ theo dõi.</p>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Vùng text hiển thị chế độ Đọc thông thường -->
+                <div id="modal-read-container" class="space-y-4">
+                    <h2 id="modal-title" class="text-xl md:text-2xl font-extrabold text-gray-950 dark:text-[#E6E0E9] leading-tight">Tiêu đề chi tiết</h2>
+                    <div id="modal-body" class="text-[15px] md:text-base text-gray-600 dark:text-[#CAC4D0] leading-relaxed space-y-4 font-normal"></div>
+                </div>
+            </div>
+
+            <!-- Nút điều khiển -->
+            <div class="px-6 py-4 border-t border-gray-100 dark:border-[#49454F]/50 bg-gray-50 dark:bg-[#141218] flex items-center justify-end gap-3">
+                <button onclick="closeArticleModal()" class="px-4 py-2 border border-gray-200 dark:border-[#49454F]/50 text-gray-600 dark:text-[#CAC4D0] hover:bg-gray-100 dark:bg-[#2B2930] dark:hover:bg-[#36343B] rounded-xl text-sm font-semibold transition active:scale-95">Đóng lại</button>
+                <button id="btn-admin-submit" type="submit" form="article-form" class="px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 rounded-xl text-sm font-semibold shadow-sm transition active:scale-95">💾 Lưu bài viết</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-container"></div>
+    
+    <div id="footer"></div>
+
+    <!-- Scripts điều phối logic Admin -->
+    <script type="module" src="/js/Manage_js/Blog_manage.js"></script>
+    <script src="/js/Manage_js/load_components.js"></script>
+    <script src="/js/Admin_js/Setting_admin.js"></script>
+    <script src="/js/navbar.js"></script>
+    <script src="/js/Account.js"></script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuyên trách - Hỗ trợ Học sinh | StopBully</title>
+
+    <link rel="stylesheet" href="/css/Admin_css/navbar_admin.css">
+    
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@400;500;600;700&display=swap">
+    
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = { darkMode: 'class',
+            content: [],
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Be Vietnam', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        .scrollbar-thin::-webkit-scrollbar { width: 4px; }
+        .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+        .blink-bg { animation: blinkBg 1.5s infinite; }
+        @keyframes blinkBg {
+            0%  { background-color: rgba(234, 179, 8, 0.1); }
+            50% { background-color: rgba(234, 179, 8, 0.3); }
+            100%{ background-color: rgba(234, 179, 8, 0.1); }
+        }
+        .msg-summarized { font-style: italic; }
+        .badge-spam { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; padding: 2px 8px; border-radius: 8px; font-size: 11px; font-weight: 700; }
+    </style>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body class="font-sans bg-gray-50 dark:bg-[#141218] text-gray-800 dark:text-[#E6E0E9]">
+    <div id="navbar" class="shrink-0"></div>
+
+    <!-- Main Container - 3 Columns -->
+    <div class="flex w-full max-w-[1600px] mx-auto h-[calc(100vh-68px)] overflow-hidden bg-gray-50 dark:bg-[#141218] p-2 lg:p-4 gap-4">
+        
+        <!-- CỘT 1: DANH SÁCH CÁC HỌC SINH CẦN HỖ TRỢ -->
+        <aside class="w-80 bg-white dark:bg-[#211F26] border border-gray-200 dark:border-[#49454F]/50 rounded-3xl flex flex-col overflow-hidden shadow-sm shrink-0">
+            <!-- Header cột 1 -->
+            <div class="p-4 border-b border-gray-100 dark:border-[#49454F]/50 bg-gray-50 dark:bg-[#141218] shrink-0">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-gray-800 dark:text-[#E6E0E9] text-sm uppercase tracking-wide flex items-center gap-2">
+                        🛡️ Tin chính
+                    </h3>
+                    <span id="student-count" class="bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400 text-xs font-bold px-3 py-1 rounded-full">0</span>
+                </div>
+                <!-- Nút xem spam -->
+                <button onclick="toggleSpamView()" id="btn-toggle-spam" class="w-full py-2 px-3 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-xl text-xs font-bold flex items-center justify-between transition">
+                    <span class="flex items-center gap-1.5">⚠️ Spam / Nghi ngờ</span>
+                    <span id="spam-count" class="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">0</span>
+                </button>
+            </div>
+            
+            <!-- Danh sách học sinh -->
+            <div id="student-list" class="flex-1 overflow-y-auto p-3 space-y-2 scrollbar-thin">
+                <div class="text-center text-sm text-gray-400 py-4">Đang tải dữ liệu...</div>
+            </div>
+        </aside>
+
+        <!-- CỘT 2: KHUNG CHAT VỚI HỌC SINH -->
+        <main class="flex-1 min-h-0 bg-white dark:bg-[#211F26] border border-gray-200 dark:border-[#49454F]/50 rounded-3xl flex flex-col overflow-hidden shadow-sm">
+            <!-- Header Chat -->
+            <div class="p-4 border-b border-gray-100 dark:border-[#49454F]/50 bg-white dark:bg-[#211F26] flex justify-between items-center shrink-0 shadow-sm z-10 relative">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-700 dark:text-amber-400 text-xl font-bold" id="current-chat-avatar">🛡️</div>
+                    <div>
+                        <h3 class="font-bold text-gray-800 dark:text-[#E6E0E9] text-base" id="current-chat-name">Chọn một học sinh để bắt đầu</h3>
+                        <p class="text-xs text-gray-500 dark:text-[#CAC4D0] font-mono mt-0.5" id="current-chat-class">---</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <!-- Nút xem báo cáo của học sinh đang chat -->
+                    <button id="btn-view-reports" onclick="viewStudentReports()" class="hidden px-3 py-2 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 rounded-xl text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
+                        📋 Báo cáo sự việc
+                    </button>
+                    <!-- Nút đánh dấu đã xử lý -->
+                    <button id="btn-resolve-chat" onclick="resolveCurrentChat()" class="hidden px-3 py-2 bg-green-50 hover:bg-green-100 text-green-700 border border-green-200 rounded-xl text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
+                        ✓ Đã xử lý
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat messages -->
+            <div id="student-chat-box" class="min-h-0 flex-1 p-6 overflow-y-auto space-y-4 scrollbar-thin bg-gray-50 dark:bg-[#141218]/50 relative">
+                <div class="absolute inset-0 flex items-center justify-center opacity-30" style="background-image: radial-gradient(#e5e7eb 1px, transparent 1px); background-size: 20px 20px;"></div>
+                <div class="text-center text-base text-gray-500 dark:text-[#CAC4D0] py-16 relative z-10 font-medium">
+                    <div class="text-4xl mb-3">🛡️</div>
+                    <div class="font-bold text-gray-700 dark:text-gray-300">Bảng điều khiển Chuyên trách</div>
+                    <div class="text-sm mt-1">Chọn một học sinh từ danh sách bên trái để xem và trả lời</div>
+                </div>
+            </div>
+
+            <!-- Form gửi tin nhắn -->
+            <div class="p-4 border-t border-gray-100 dark:border-[#49454F]/50 bg-white dark:bg-[#211F26] shrink-0 relative z-10">
+                <form id="student-chat-form" onsubmit="handleStudentChatSubmit(event)" class="flex gap-2 items-center bg-gray-50 dark:bg-[#141218] border border-gray-200 dark:border-[#49454F]/50 focus-within:border-amber-500 focus-within:ring-4 focus-within:ring-amber-500/20 rounded-2xl px-4 py-2.5 transition duration-200">
+                    <input type="text" id="student-chat-input" disabled placeholder="Nhập tin nhắn phản hồi học sinh..." class="flex-1 bg-transparent border-none outline-none text-[15px] text-gray-800 dark:text-[#E6E0E9] placeholder-gray-400">
+                    <button type="submit" id="student-chat-submit" disabled class="w-10 h-10 bg-amber-600 hover:bg-amber-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-xl flex items-center justify-center shadow-md transition active:scale-95 shrink-0 text-lg">
+                        ➤
+                    </button>
+                </form>
+            </div>
+        </main>
+
+        <!-- CỘT 3: TRỢ LÝ AI -->
+        <aside class="w-[340px] bg-white dark:bg-[#211F26] border border-gray-200 dark:border-[#49454F]/50 rounded-3xl flex flex-col overflow-hidden shadow-sm shrink-0">
+            <div class="p-4 border-b border-gray-100 dark:border-[#49454F]/50 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 flex justify-between items-center shrink-0">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 to-orange-600 text-white flex items-center justify-center text-sm shadow">🤖</div>
+                    <h3 class="font-bold text-amber-900 dark:text-amber-200 text-sm uppercase tracking-wide">AI Trợ Lý Chuyên trách</h3>
+                </div>
+            </div>
+
+            <!-- Các nút AI nhanh -->
+            <div class="p-3 border-b border-gray-100 dark:border-[#49454F]/50 bg-white dark:bg-[#211F26] shrink-0 space-y-2">
+                <button onclick="analyzeCurrentChat()" id="btn-analyze-chat" disabled class="w-full py-2.5 bg-amber-600 hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl text-sm font-bold shadow-md transition active:scale-95 flex items-center justify-center gap-2">
+                    <span class="text-base">✨</span> Phân tích & Gợi ý trả lời
+                </button>
+                <button onclick="summarizeCurrentChat()" id="btn-summarize-chat" disabled class="w-full py-2 bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 disabled:opacity-50 disabled:cursor-not-allowed text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-800 rounded-xl text-sm font-bold transition active:scale-95 flex items-center justify-center gap-2">
+                    <span>📝</span> Làm gọn nội dung chat
+                </button>
+            </div>
+
+            <!-- Chat với AI -->
+            <div id="ai-chat-box" class="flex-1 p-4 overflow-y-auto space-y-4 scrollbar-thin text-[15px] bg-gray-50 dark:bg-[#141218]/30">
+                <div class="flex items-start gap-2.5 max-w-[90%]">
+                    <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-600 flex items-center justify-center text-white shrink-0 shadow-sm text-sm">🤖</div>
+                    <div class="bg-white dark:bg-[#2B2930] border border-gray-100 dark:border-[#49454F]/50 text-gray-800 dark:text-[#E6E0E9] px-4 py-3 rounded-2xl rounded-tl-none leading-relaxed shadow-sm text-sm">
+                        Xin chào! Tôi là AI Trợ Lý dành riêng cho Chuyên trách. Hãy chọn học sinh và bấm <strong>"Phân tích & Gợi ý"</strong> để tôi hỗ trợ bạn phân tích tình huống.
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Typing Indicator -->
+            <div id="ai-typing" class="hidden px-4 pb-2 bg-gray-50 dark:bg-[#141218]/30 shrink-0">
+                <div class="flex items-start gap-2.5 max-w-[90%]">
+                    <div class="w-8 h-8 rounded-xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center shrink-0 text-sm">🤖</div>
+                    <div class="bg-white dark:bg-[#211F26] border border-gray-100 dark:border-[#49454F]/50 px-4 py-3 rounded-2xl rounded-tl-none flex items-center gap-1.5 shadow-sm">
+                        <span class="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style="animation-delay: 0s"></span>
+                        <span class="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style="animation-delay: 0.15s"></span>
+                        <span class="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style="animation-delay: 0.3s"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form gửi AI -->
+            <div class="p-3 border-t border-gray-100 dark:border-[#49454F]/50 bg-white dark:bg-[#211F26] shrink-0">
+                <form id="ai-chat-form" onsubmit="handleAIChatSubmit(event)" class="flex gap-2 items-center bg-gray-50 dark:bg-[#141218] border border-gray-200 dark:border-[#49454F]/50 focus-within:border-amber-500 focus-within:ring-2 focus-within:ring-amber-500/20 rounded-xl px-3 py-2 transition duration-200">
+                    <input type="text" id="ai-chat-input" placeholder="Hỏi AI trợ lý..." class="flex-1 bg-transparent border-none outline-none text-sm text-gray-800 dark:text-[#E6E0E9] placeholder-gray-400">
+                    <button type="submit" class="w-8 h-8 bg-amber-600 hover:bg-amber-700 text-white rounded-lg flex items-center justify-center shadow transition active:scale-95 shrink-0">
+                        ➤
+                    </button>
+                </form>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Modal xem báo cáo -->
+    <div id="reports-modal" class="fixed inset-0 bg-slate-950/60 z-[100] backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-[#211F26] w-full max-w-2xl rounded-[2rem] shadow-2xl flex flex-col max-h-[85vh] overflow-hidden border dark:border-gray-800">
+            <div class="flex items-center justify-between p-6 border-b border-gray-100 dark:border-[#49454F]/50 shrink-0">
+                <h2 class="text-lg font-extrabold text-gray-900 dark:text-[#E6E0E9]">📋 Báo cáo sự việc liên quan</h2>
+                <button onclick="document.getElementById('reports-modal').classList.add('hidden')" class="w-9 h-9 bg-gray-100 dark:bg-[#36343B] hover:bg-gray-200 dark:hover:bg-[#49454F] rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 transition">✕</button>
+            </div>
+            <div id="reports-modal-body" class="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin">
+                <div class="text-center text-gray-400 py-8">Đang tải báo cáo...</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+    <div id="modal-container"></div>
+    
+    <!-- Tailwind safelist -->
+    <div id="tailwind-safelist" class="hidden dark:bg-[#2B2930] dark:bg-teal-900/30 dark:border-teal-800 dark:text-teal-400 dark:bg-red-900/40 dark:border-red-700/50 dark:bg-amber-900/40 dark:border-amber-700/50 dark:bg-[#36343B] dark:border-indigo-500/50 dark:hover:bg-[#36343B] dark:bg-[#141218] dark:bg-[#211F26] dark:text-[#E6E0E9]"></div>
+
+    <script type="module" src="/js/Specialist_js/Chatbot_specialist.js"></script>
+    <script src="/js/Specialist_js/load_components_specialist.js"></script>
+    <script src="/js/Admin_js/Setting_admin.js"></script>
+    <script src="/js/navbar.js"></script>
+</body>
+</html>

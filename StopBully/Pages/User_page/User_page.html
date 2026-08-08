@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="vi" class="transition-colors duration-300">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang học sinh - StopBully</title>
+
+    <link rel="stylesheet" href="/css/User_css/User_page.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/Account_page.css">
+
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@400;500;600;700&display=swap">
+    
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = { darkMode: 'class',
+            content: [],
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Be Vietnam', 'system-ui', 'sans-serif']
+                    },
+                    colors: {
+                        md: {
+                            surface: '#f8fafc',
+                            surfaceDark: '#0f172a',
+                            primary: '#10b981',
+                            primaryDark: '#059669'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-50 dark:bg-[#141218] text-gray-800 dark:text-[#E6E0E9] transition-colors duration-300">
+    <div id="navbar"></div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-8 md:py-12">
+        
+        <!-- Welcome -->
+        <header class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-[#E6E0E9] tracking-tight">Chào mừng trở lại, <span id="welcome-name" class="text-emerald-600 dark:text-emerald-400">Bạn</span>! 👋</h2>
+                <p class="text-gray-600 dark:text-[#CAC4D0] mt-2 text-lg">Hôm nay là một ngày tốt để lan tỏa sự an toàn ❤️</p>
+            </div>
+            <div class="hidden md:block">
+                <p class="text-[15px] text-gray-500 dark:text-[#CAC4D0] font-medium" id="current-date"></p>
+            </div>
+        </header>
+
+        <!-- Stats Cards -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="bg-white dark:bg-[#211F26] p-8 rounded-[2rem] shadow-sm hover:shadow-xl dark:shadow-none dark:border dark:border-[#49454F]/50 transition-all duration-300 transform hover:-translate-y-1">
+                <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-3xl mb-6">📊</div>
+                <h3 class="text-4xl font-bold text-gray-900 dark:text-[#E6E0E9]" id="stat-sent">—</h3>
+                <p class="text-gray-600 dark:text-[#CAC4D0] mt-2 font-medium">Báo cáo đã gửi</p>
+            </div>
+            <div class="bg-white dark:bg-[#211F26] p-8 rounded-[2rem] shadow-sm hover:shadow-xl dark:shadow-none dark:border dark:border-[#49454F]/50 transition-all duration-300 transform hover:-translate-y-1">
+                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center text-3xl mb-6">✅</div>
+                <h3 class="text-4xl font-bold text-gray-900 dark:text-[#E6E0E9]" id="stat-resolved">—</h3>
+                <p class="text-gray-600 dark:text-[#CAC4D0] mt-2 font-medium">Báo cáo đã xử lý</p>
+            </div>
+            <div class="bg-white dark:bg-[#211F26] p-8 rounded-[2rem] shadow-sm hover:shadow-xl dark:shadow-none dark:border dark:border-[#49454F]/50 transition-all duration-300 transform hover:-translate-y-1">
+                <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 rounded-2xl flex items-center justify-center text-3xl mb-6">🛡️</div>
+                <h3 class="text-4xl font-bold text-gray-900 dark:text-[#E6E0E9]">100%</h3>
+                <p class="text-gray-600 dark:text-[#CAC4D0] mt-2 font-medium">Tỷ lệ bảo mật an toàn</p>
+            </div>
+        </section>
+
+        <!-- Quick Actions & News -->
+        <section class="grid md:grid-cols-2 gap-8">
+            <!-- Action Hero -->
+            <div class="relative overflow-hidden bg-gradient-to-br from-emerald-500 to-teal-600 text-white p-10 rounded-[2.5rem] shadow-lg group">
+                <div class="relative z-10">
+                    <span class="inline-block px-3 py-1 bg-white dark:bg-[#211F26]/20 text-emerald-800 dark:text-emerald-100 rounded-full text-sm font-semibold mb-6 backdrop-blur-md">An toàn tuyệt đối</span>
+                    <h3 class="text-3xl font-bold mb-4 leading-tight">
+                        Bạn muốn báo cáo<br/>một sự việc hôm nay?
+                    </h3>
+                    <p class="text-emerald-50 text-base mb-8 max-w-sm opacity-90">Mọi thông tin của bạn được mã hóa hai đầu và bảo mật tuyệt đối. Chúng tôi luôn lắng nghe bạn.</p>
+                    
+                    <button
+                        onclick="loadReportForm('modal-container')"
+                        class="bg-white dark:bg-[#211F26] text-emerald-700 px-8 py-4 rounded-full font-bold text-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-3">
+                        Gửi báo cáo ẩn danh
+                        <span class="text-xl transform group-hover:translate-x-1 transition-transform">→</span>
+                    </button>
+                </div>
+                
+                <!-- Decorative Elements -->
+                <div class="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-white dark:bg-[#211F26] opacity-10 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-0 right-10 -mb-8 w-40 h-40 bg-teal-300 opacity-20 rounded-full blur-2xl"></div>
+            </div>
+
+            <!-- News/Blog -->
+            <div class="bg-white dark:bg-[#211F26] p-8 rounded-[2.5rem] shadow-sm dark:border dark:border-[#49454F]/50">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-[#E6E0E9]">Tin tức & Tuyên truyền</h3>
+                    <a href="Blog.html" class="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline text-[15px]">Xem tất cả</a>
+                </div>
+                <div id="news-container" class="space-y-6">
+                    <!-- Articles will be rendered here dynamically -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="modal-container"></div>
+    <div id="footer"></div>
+
+    <script src="/js/Account.js"></script>
+    <script defer src="/js/load_components.js"></script>
+    <script defer src="/js/navbar.js"></script>
+    <script type="module" src="/js/User_js/Report_component.js"></script>
+    <script type="module" src="/js/User_js/Tracker_component.js"></script>
+    <script type="module" src="/js/Change_password.js"></script>
+    <script src="/js/User_js/Setting.js"></script>
+
+    <script>
+        // Display current date
+        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('vi-VN', dateOptions);
+
+        function getUserIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const currentUserId = getUserIdFromUrl();
+
+            if (currentUserId) {
+                localStorage.setItem('currentUser', currentUserId);
+            } else {
+                const fallbackId = localStorage.getItem('currentUser');
+                if (!fallbackId) {
+                    window.location.href = "/index.html"; 
+                }
+            }
+        });
+    </script>
+    
+    <script type="module">
+        import { db, ref, onValue } from '/js/script.js';
+
+        const currentUser = localStorage.getItem('currentUser');
+        const currentUserName = localStorage.getItem('currentUserName');
+
+        const welcomeEl = document.getElementById('welcome-name');
+        if (welcomeEl && currentUserName) {
+            welcomeEl.textContent = currentUserName;
+        }
+
+        if (currentUser) {
+            const reportsRef = ref(db, 'reports');
+            onValue(reportsRef, (snapshot) => {
+                if (!snapshot.exists()) {
+                    document.getElementById('stat-sent').textContent = '0';
+                    document.getElementById('stat-resolved').textContent = '0';
+                    return;
+                }
+                const reports = Object.values(snapshot.val());
+                const myReports = reports.filter(r => r.senderId === currentUser);
+                const myResolved = myReports.filter(r => r.status === 'resolved');
+                
+                document.getElementById('stat-sent').textContent = myReports.length;
+                document.getElementById('stat-resolved').textContent = myResolved.length;
+            });
+        }
+
+        // Load news dynamically
+        import { loadArticlesAndCarousel } from '/Data_firebase/Blog_data.js';
+        loadArticlesAndCarousel((articles, slides) => {
+            const newsContainer = document.getElementById('news-container');
+            if (!newsContainer) return;
+            newsContainer.innerHTML = '';
+            
+            if (!articles || articles.length === 0) {
+                newsContainer.innerHTML = '<p class="text-gray-500 dark:text-[#CAC4D0] text-[15px]">Chưa có tin tức nào.</p>';
+                return;
+            }
+
+            const latestTwo = articles.slice(0, 2);
+            latestTwo.forEach((article, index) => {
+                const icon = article.category === 'Knowledge' ? '📘' : (article.category === 'Prevention' ? '🛡️' : (article.category === 'Skills' ? '💪' : '📢'));
+                const colorClass = index % 2 === 0 ? 'bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400' : 'bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400';
+                
+                const html = `
+                    <a href="Blog.html" class="flex items-start gap-5 group">
+                        <div class="w-16 h-16 ${colorClass} rounded-[1.25rem] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shrink-0">${icon}</div>
+                        <div>
+                            <p class="font-bold text-lg text-gray-900 dark:text-[#E6E0E9] group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors line-clamp-2">${article.title}</p>
+                            <p class="text-[15px] text-gray-500 dark:text-[#CAC4D0] mt-1">${article.timeAgo || 'Vừa xong'}</p>
+                        </div>
+                    </a>
+                `;
+                newsContainer.insertAdjacentHTML('beforeend', html);
+                
+                if (index === 0 && latestTwo.length > 1) {
+                    newsContainer.insertAdjacentHTML('beforeend', '<div class="h-px bg-gray-100 dark:bg-gray-700/50"></div>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

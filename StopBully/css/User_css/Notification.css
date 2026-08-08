@@ -1,0 +1,25 @@
+/* Sidebar Animation Mượt */
+.notification-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.notification-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(16, 185, 129, 0.12);
+}
+
+.notification-card.unread {
+    border-left: 4px solid #10b981;
+    background: linear-gradient(90deg, rgba(236, 253, 245, 0.95), rgba(255, 255, 255, 0.95));
+}
+
+.message-preview {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+    line-clamp: 2;
+}

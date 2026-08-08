@@ -1,0 +1,95 @@
+﻿<!-- Nền tối mờ bao phủ toàn màn hình giúp hộp thông tin nổi bật lên -->
+<div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in">
+    <!-- Nút đóng góc trên bên phải sử dụng hàm closeModal của hệ thống -->
+    <!-- Khung hộp chứa thông tin chính -->
+    <div class="w-full max-w-xl max-h-[90vh] bg-white dark:bg-[#211F26] border border-gray-100 dark:border-[#49454F]/50 rounded-[32px] shadow-2xl relative flex flex-col overflow-hidden transform transition-all duration-300 scale-100">
+        <button onclick="closeModal()" class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center text-gray-900 dark:text-[#E6E0E9] hover:text-gray-600 dark:text-[#CAC4D0] hover:bg-gray-100 dark:bg-[#2B2930] dark:hover:bg-[#36343B] rounded-xl transition text-xl z-50">
+        ✕
+    </button>
+        <div id="account-component" class="overflow-y-auto w-full flex-1 p-6 md:p-8 scrollbar-thin">
+
+
+        
+        <!-- Tiêu đề vùng thông tin -->
+        <div class="text-center space-y-2 mb-6 border-b border-gray-100 dark:border-[#49454F]/50 pb-5">
+            <span class="inline-block px-3 py-1 bg-emerald-100 rounded-full text-xs font-bold text-emerald-800 uppercase tracking-wide">
+                👤 Hồ Sơ Phụ Huynh
+            </span>
+            <h1 class="text-xl md:text-2xl font-extrabold text-gray-950 dark:text-[#E6E0E9] tracking-tight">
+                Thông Tin Tài Khoản cá nhân
+            </h1>
+            <p class="text-gray-500 dark:text-[#CAC4D0] text-sm max-w-sm mx-auto leading-relaxed">
+                Thông tin được mã hóa bảo mật trên hệ thống. Quý phụ huynh không thể tự ý chỉnh sửa các dữ liệu này.
+            </p>
+        </div>
+
+        
+            <!-- Avatar Section -->
+            <div class="flex flex-col items-center mb-4 mt-2">
+                <div class="relative group cursor-pointer" onclick="document.getElementById('avatar-upload').click()">
+                    <div class="w-24 h-24 rounded-full bg-indigo-50 dark:bg-[#36343B] flex items-center justify-center overflow-hidden border-4 border-white dark:border-[#211F26] shadow-sm">
+                        <img id="profile-avatar-img" src="" class="w-full h-full object-cover hidden" alt="Avatar">
+                        <span id="profile-avatar-placeholder" class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">👤</span>
+                    </div>
+                    <div class="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="text-white text-sm font-bold">Thay đổi</span>
+                    </div>
+                </div>
+                <input type="file" id="avatar-upload" accept="image/*" class="hidden" onchange="window.handleAvatarUpload(event)">
+                <div id="avatar-upload-loading" class="hidden text-sm text-indigo-600 dark:text-indigo-400 mt-2 font-medium animate-pulse">Đang tải ảnh lên...</div>
+            </div>
+
+        <!-- Khối hiển thị thông tin chi tiết -->
+        <div class="space-y-5">
+            
+            <!-- HÀNG 1: Họ và tên -->
+            <div class="space-y-1.5">
+                <label class="block text-sm font-bold text-gray-400 uppercase tracking-wider">Họ và tên</label>
+                <div class="w-full flex items-center gap-3 text-[15px] font-medium text-gray-800 dark:text-[#E6E0E9] bg-gray-50 dark:bg-[#141218]/70 border border-gray-100 dark:border-[#49454F]/50/80 px-4 py-2.5 rounded-xl">
+                    <span class="text-emerald-600 text-base">👤</span>
+                    <span id="profile-name">Nguyễn Văn Thanh</span>
+                </div>
+            </div>
+
+            <!-- HÀNG 2: Giới tính & Vai trò (Chia 2 cột) -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-1.5">
+                    <label class="block text-sm font-bold text-gray-400 uppercase tracking-wider">Giới tính</label>
+                    <div class="w-full flex items-center gap-3 text-[15px] font-medium text-gray-800 dark:text-[#E6E0E9] bg-gray-50 dark:bg-[#141218]/70 border border-gray-100 dark:border-[#49454F]/50/80 px-4 py-2.5 rounded-xl">
+                        <span id="profile-gender">Nam</span>
+                    </div>
+                </div>
+                <div class="space-y-1.5">
+                    <label class="block text-sm font-bold text-gray-400 uppercase tracking-wider">Vai trò</label>
+                    <div class="w-full flex items-center gap-3 text-[15px] font-medium text-gray-800 dark:text-[#E6E0E9] bg-gray-50 dark:bg-[#141218]/70 border border-gray-100 dark:border-[#49454F]/50/80 px-4 py-2.5 rounded-xl">
+                        <span id="profile-role">Phụ huynh</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HÀNG 3: Con cái & Số điện thoại (Chia 2 cột) -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-1.5">
+                    <label class="block text-sm font-bold text-gray-400 uppercase tracking-wider">Con cái liên kết</label>
+                    <div class="w-full flex items-center gap-3 text-[15px] font-medium text-gray-800 dark:text-[#E6E0E9] bg-gray-50 dark:bg-[#141218]/70 border border-gray-100 dark:border-[#49454F]/50/80 px-4 py-2.5 rounded-xl">
+                        <span id="profile-child">Chưa liên kết</span>
+                    </div>
+                </div>
+                <div class="space-y-1.5">
+                    <label class="block text-sm font-bold text-gray-400 uppercase tracking-wider">Số điện thoại</label>
+                    <div class="w-full flex items-center gap-3 text-[15px] font-medium text-gray-800 dark:text-[#E6E0E9] bg-gray-50 dark:bg-[#141218]/70 border border-gray-100 dark:border-[#49454F]/50/80 px-4 py-2.5 rounded-xl">
+                        <span class="truncate" id="profile-phone">—</span>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Nút Đăng xuất -->
+            <button onclick="window.handleLogout()" class="w-full py-3 bg-red-50 hover:bg-red-100 border border-red-100 text-red-600 rounded-xl text-sm font-bold transition duration-200 cursor-pointer flex items-center justify-center gap-1.5 text-center">
+                Đăng xuất
+            </button>
+        </div>
+    </div>
+    </div>
+</div>

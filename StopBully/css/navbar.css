@@ -1,0 +1,25 @@
+/*Animation cho nút gửi báo cáo*/
+@keyframes pulse-slow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 0 12px rgba(16, 185, 129, 0);
+    }
+}
+
+.animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+}
+
+/* Hover vẫn giữ hiệu ứng bình thường */
+.sidebar-link:hover {
+    animation: none;                    /* Tắt animation pulse khi hover */
+    box-shadow: 0 10px 15px -3px rgb(16 185 129 / 0.2);
+}
+
+.quick-btn{
+    transition: all .35s ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,.15);
+    animation: pulse 2s infinite;
+}
