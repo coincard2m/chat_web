@@ -55,15 +55,7 @@ function initReportForm() {
                     submitBtn.innerHTML = '⏳ Đang gửi phản ánh...';
                 }
 
-                const recaptchaResponse = grecaptcha.getResponse();
-                if (!recaptchaResponse) {
-                    alert("Vui lòng xác minh bạn không phải là robot.");
-                    if (submitBtn) {
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = '🛡️ Gửi Phản Ánh Bảo Mật';
-                    }
-                    return;
-                }
+                // Đã xóa reCAPTCHA
 
                 try {
                     const isAnonymous = isAnonymousCheckbox ? isAnonymousCheckbox.checked : true;
