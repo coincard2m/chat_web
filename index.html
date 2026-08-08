@@ -13,8 +13,6 @@
     
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- reCAPTCHA -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     
     <script>
         tailwind.config = {
@@ -321,35 +319,7 @@
         </div>
     </div>
 
-    <!-- reCAPTCHA landing screen -->
-    <div id="recaptcha-gate" class="fixed inset-0 bg-gradient-to-br from-emerald-900 via-teal-900 to-slate-900 z-[200] flex items-center justify-center p-4">
-        <div class="w-full max-w-sm text-center">
-            <!-- Logo -->
-            <div class="mb-8">
-                <div class="w-24 h-24 bg-white/10 backdrop-blur-sm border border-white/20 rounded-[2rem] flex items-center justify-center text-5xl mx-auto mb-4 shadow-2xl">
-                    🛡️
-                </div>
-                <h1 class="text-3xl font-extrabold text-white tracking-tight">StopBully</h1>
-                <p class="text-emerald-300 text-sm mt-1 font-medium">Hệ thống an toàn học đường Việt Nam</p>
-            </div>
-            
-            <!-- Message -->
-            <p class="text-white/80 text-sm mb-6">Vui lòng xác minh bạn không phải robot để tiếp tục</p>
-            
-            <!-- reCAPTCHA -->
-            <div class="flex justify-center mb-6">
-                <div class="g-recaptcha" 
-                     data-sitekey="6LfIg3otAAAAAMa5lXNtMgieloqdJp2lO-UMvC52"
-                     data-sitekey="6LfZ5HotAAAAAJ1htgyu-gHyhAQDanVGIGiWXcr0"
-                     data-theme="dark"></div>
-            </div>
-            
-            <!-- Trust text -->
-            <p class="text-white/50 text-xs">Dữ liệu hoàn toàn bảo mật &bull; Mã hóa hai đầu</p>
-        </div>
-    </div>
-
-    <!-- Sự kiện kích hoạt animation cho các thẻ -->
+    <!-- Code hiển thị các mục (cards, navbar) -->
     <script>
         const cards = document.querySelectorAll('.card');
         const observer = new IntersectionObserver((entries) => {
@@ -373,47 +343,6 @@
             const wrapper = document.getElementById('more-menu-wrapper');
             if (wrapper && !wrapper.contains(e.target)) closeMoreMenu();
         });
-
-        // reCAPTCHA gate callback
-        async function onGateRecaptchaPassed(token) {
-            try {
-                // Hiển thị trạng thái đang xử lý nếu cần
-                const response = await fetch('http://localhost:5000/api/verify-gate-recaptcha', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token: token })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success && data.firebaseConfig) {
-                    // Lưu cấu hình vào sessionStorage
-                    sessionStorage.setItem('firebaseConfig', JSON.stringify(data.firebaseConfig));
-                    
-                    const gate = document.getElementById('recaptcha-gate');
-                    if (gate) {
-                        gate.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                        gate.style.opacity = '0';
-                        gate.style.transform = 'scale(1.05)';
-                        setTimeout(() => {
-                            gate.style.display = 'none';
-                        }, 500);
-                    }
-                    
-                    // Khởi tạo app sau khi lấy được config
-                    if (window.initAppAfterGate) {
-                        window.initAppAfterGate();
-                    }
-                } else {
-                    alert("Xác thực thất bại! " + (data.error || ""));
-                    grecaptcha.reset();
-                }
-            } catch (error) {
-                console.error("Lỗi xác minh:", error);
-                alert("Lỗi kết nối máy chủ. Vui lòng thử lại sau.");
-                grecaptcha.reset();
-            }
-        }
     </script>
 
     <!--Code hiệu ứng đăng nhập-->
@@ -521,11 +450,22 @@
             }
         };
 
-        // Nếu đã qua gate trong session này, tự động ẩn gate và khởi tạo app
-        document.addEventListener('DOMContentLoaded', () => {
-            if (sessionStorage.getItem('firebaseConfig')) {
-                const gate = document.getElementById('recaptcha-gate');
-                if (gate) gate.style.display = 'none';
+        // Tự động tải cấu hình Firebase và khởi tạo app khi trang load
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!sessionStorage.getItem('firebaseConfig')) {
+                try {
+                    const response = await fetch('http://localhost:5000/api/get-firebase-config');
+                    const data = await response.json();
+                    if (data.success && data.firebaseConfig) {
+                        sessionStorage.setItem('firebaseConfig', JSON.stringify(data.firebaseConfig));
+                        window.initAppAfterGate();
+                    } else {
+                        console.error("Không lấy được config:", data.error);
+                    }
+                } catch (error) {
+                    console.error("Lỗi kết nối tới backend:", error);
+                }
+            } else {
                 window.initAppAfterGate();
             }
         });
