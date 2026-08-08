@@ -1,0 +1,244 @@
+/* style.css */
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Be Vietnam', system-ui, sans-serif;
+}
+
+/* Hero background - dark gradient with mesh pattern */
+.hero-bg {
+    background: 
+        linear-gradient(135deg, 
+            #064e3b 0%, 
+            #065f46 25%,
+            #0f766e 50%, 
+            #1e3a5f 75%,
+            #1e1b4b 100%
+        );
+    position: relative;
+}
+
+.hero-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 60% 80%, rgba(20, 184, 166, 0.12) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Animation cho Hero */
+.hero-text {
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+.hero-button {
+    animation: fadeInUp 1.2s ease-out forwards;
+}
+
+/* Animation cho Cards */
+.card {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Hover effects */
+.card-hover {
+    transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 
+                0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* ==================== HEADER NAV ==================== */
+.header-nav-link {
+    position: relative;
+    padding: 0.5rem 0.8rem;
+    border-radius: 999px;
+    color: #374151;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.header-nav-link:hover {
+    color: #047857;
+    background: rgba(16, 185, 129, 0.1);
+}
+
+#Plus {
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    border: 1px solid #d1fae5;
+    background: #f0fdf4;
+    color: #047857;
+    font-size: 1.45rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.12);
+}
+
+#Plus:hover {
+    background: #dcfce7;
+    transform: translateY(-1px);
+}
+/* Ticker subtle animation */
+.ticker {
+    animation: tickerGlow 4s ease-in-out infinite;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes tickerGlow {
+    0%, 100% { opacity: 0.95; }
+    50% { opacity: 1; }
+}
+
+/* Nút nổi bật */
+.btn-primary {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 40%;
+    height: 200%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.4),
+        transparent
+    );
+    transform: skewX(-25deg);
+    animation: shimmer 4s infinite;
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(400%);
+    }
+}
+
+/* RESPONSIVE TOÀN TRANG */
+
+@media screen and (max-width: 768px) {
+
+    /* navbar */
+    nav .py-4 {
+        padding-top: 16px !important;
+        padding-bottom: 16px !important;
+    }
+
+    #Title {
+        font-size: 1.18rem !important;
+    }
+
+    nav .text-xs {
+        font-size: 0.68rem !important;
+    }
+
+    .w-12.h-12 {
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 1.5rem !important;
+    }
+
+    /* Nút trong navbar */
+    button {
+        padding: 12px 20px !important;
+        font-size: 15px !important;
+    }
+
+    #Plus {
+        width: 42px !important;
+        height: 42px !important;
+        font-size: 1.2rem !important;
+    }
+
+    .hero-bg {
+        padding-top: 80px !important;
+        padding-bottom: 80px !important;
+    }
+
+    .hero-text {
+        font-size: 2.4rem !important;
+        line-height: 1.1 !important;
+    }
+
+    .hero-button {
+        padding: 16px 28px !important;
+        font-size: 16px !important;
+    }
+
+    /* Các thẻ */
+    .py-20 {
+        padding-top: 60px !important;
+        padding-bottom: 60px !important;
+    }
+
+    h2.text-4xl {
+        font-size: 2rem !important;
+    }
+
+    .card {
+        padding: 28px !important;
+    }
+
+    /* modal*/
+    #auth-modal > div {
+        margin: 16px !important;
+        max-width: 92% !important;
+    }
+
+    .p-8 {
+        padding: 24px !important;
+    }
+
+    input, select {
+        padding: 16px 20px !important;
+        font-size: 15.5px !important;
+    }
+    #Login{
+        padding: 10px;
+    }
+}
+
+/* Mobile siêu nhỏ (dưới 480px) */
+@media screen and (max-width: 480px) {
+    .hero-text {
+        font-size: 2.1rem !important;
+    }
+
+    #Title {
+        font-size: 1.25rem !important;
+    }
+
+    button {
+        font-size: 14.5px !important;
+    }
+}

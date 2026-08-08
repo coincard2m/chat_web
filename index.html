@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StopBully - Phòng chống bạo lực học đường</title>
+    <meta name="description" content="StopBully - Hệ thống báo cáo bạo lực học đường an toàn, bảo mật, kết nối học sinh với chuyên viên hỗ trợ">
+
+    <link rel="stylesheet" href="css/User_css/welcome.css"> <!--Link CSS-->
+    
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@400;500;600;700&display=swap">
+    
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            content: [],
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Be Vietnam', 'system-ui', 'sans-serif']
+                    },
+                    colors: {
+                        md: {
+                            surface: '#f8fafc',
+                            surfaceDark: '#1e293b',
+                            primary: '#10b981', /* emerald-500 */
+                            primaryDark: '#059669'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-50 dark:bg-[#141218] text-gray-800 dark:text-[#E6E0E9]">
+
+    <div class="ticker bg-emerald-600 text-white text-sm py-3 px-4 text-center font-medium tracking-wide">
+        Bạn đang ở trong vùng an toàn - Mọi dữ liệu cá nhân hoàn toàn bảo mật và mã hóa hai đầu
+    </div>
+
+    <!-- Navbar -->
+    <nav class="bg-white dark:bg-[#211F26]/95 shadow-sm sticky top-0 z-50 border-b border-emerald-50 backdrop-blur">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between gap-4">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center gap-3 min-w-0">
+                    <div class="w-12 h-12 bg-gradient-to-br from-emerald-600 to-teal-500 text-white rounded-2xl flex items-center justify-center text-2xl font-bold shadow-md">🛡️</div>
+                    <div class="min-w-0">
+                        <h1 class="text-[1.05rem] sm:text-xl font-bold text-gray-900 dark:text-[#E6E0E9] leading-tight" id="Title">StopBully</h1>
+                        <p class="text-[0.7rem] sm:text-xs text-emerald-600 -mt-0.5">Hệ thống an toàn học đường</p>
+                    </div>
+                </a>
+
+                <!-- Nút hành động -->
+                <div class="flex items-center gap-3">
+                    <button id="Login" onclick="openAuthModal()" 
+                            class="btn-primary inline-flex items-center justify-center px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full font-semibold transition shadow-md">
+                        Đăng nhập
+                    </button>
+
+                    <!-- Nút 3 chấm với Dropdown -->
+                    <div class="relative" id="more-menu-wrapper">
+                        <button id="Plus" onclick="toggleMoreMenu()" type="button" aria-label="Tùy chọn khác"
+                            class="w-10 h-10 rounded-full bg-gray-100 dark:bg-[#36343B] hover:bg-emerald-100 dark:hover:bg-gray-800 flex items-center justify-center text-xl text-gray-600 dark:text-[#CAC4D0] hover:text-emerald-700 transition font-bold">
+                            ⋯
+                        </button>
+                        <!-- Dropdown -->
+                        <div id="more-dropdown" class="hidden absolute right-0 top-full mt-2 w-52 bg-white dark:bg-[#211F26] rounded-2xl shadow-xl border border-gray-100 dark:border-[#49454F]/50 z-50 overflow-hidden">
+                            <a href="#about" onclick="closeMoreMenu()" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-[#CAC4D0] hover:bg-emerald-50 hover:text-emerald-700 transition">
+                                <span class="text-lg">ℹ️</span> Giới thiệu
+                            </a>
+                            <a href="#commit" onclick="closeMoreMenu()" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-[#CAC4D0] hover:bg-emerald-50 hover:text-emerald-700 transition">
+                                <span class="text-lg">🔒</span> Cam kết bảo mật
+                            </a>
+                            <button onclick="openAuthModal(); closeMoreMenu();" class="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-[#CAC4D0] hover:bg-emerald-50 hover:text-emerald-700 transition">
+                                <span class="text-lg">📞</span> Liên hệ hỗ trợ
+                            </button>
+                            <hr class="border-gray-100 dark:border-[#49454F]/50 my-1">
+                            <button onclick="openAuthModal(); closeMoreMenu();" class="w-full flex items-center gap-3 px-4 py-3 text-sm text-emerald-700 hover:bg-emerald-50 font-semibold transition">
+                                <span class="text-lg">🔑</span> Đăng nhập hệ thống
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    
+
+    <!-- Hero Section -->
+    <section class="hero-bg text-white relative overflow-hidden" id="about" style="padding: 8rem 0 6rem;">
+        <!-- Floating decorative blobs -->
+        <div class="absolute top-0 left-0 w-72 h-72 bg-emerald-400/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl translate-x-1/4 translate-y-1/4"></div>
+        <div class="absolute top-1/2 left-1/4 w-48 h-48 bg-violet-400/10 rounded-full blur-2xl"></div>
+        
+        <div class="max-w-4xl mx-auto text-center px-6 relative z-10">
+            <!-- Pill badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm font-medium text-white/90 mb-8">
+                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                Hệ thống đang hoạt động - Bảo mật tuyệt đối
+            </div>
+            
+            <h2 class="hero-text text-5xl md:text-6xl font-bold leading-tight mb-6" 
+                style="text-shadow: 0 4px 20px rgba(0, 0, 0, 0.85), 0 2px 10px rgba(0, 0, 0, 0.6);">
+                Môi trường học tập<br>
+                <span class="text-emerald-300">hạnh phúc, không bạo lực</span>
+            </h2>
+            
+            <p class="hero-text text-xl md:text-2xl mb-10 text-gray-100 max-w-2xl mx-auto" 
+            style="text-shadow: 0 2px 12px rgba(0, 0, 0, 0.75); animation-delay: 0.1s;">
+                Em gặp khó khăn? Đừng im lặng.<br>Chúng mình luôn ở đây để lắng nghe và bảo vệ em.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+                <!-- Nút chính -->
+                <button onclick="openAuthModal('report')" 
+                        class="hero-button btn-primary px-10 py-4 bg-white text-emerald-700 font-bold rounded-2xl text-lg hover:bg-emerald-50 transition shadow-2xl shadow-black/30 flex items-center gap-3 justify-center">
+                    <span class="text-xl">🛡️</span>
+                    Báo cáo ẩn danh ngay
+                    <span class="transform group-hover:translate-x-1 transition">→</span>
+                </button>
+                
+                <!-- Nút thứ hai -->
+                <button onclick="openAuthModal('chatbot')" 
+                    class="hero-button px-10 py-4 bg-violet-600 hover:bg-violet-700 
+                        font-bold rounded-2xl text-lg transition-all duration-300 text-white 
+                        shadow-[0_8px_30px_rgb(124,58,237,0.4)] hover:shadow-[0_10px_40px_rgb(124,58,237,0.5)]
+                        flex items-center gap-3 justify-center"
+                    style="animation-delay: 0.15s;">
+                    <span class="text-xl">🤖</span>
+                    Tâm sự với AI
+                </button>
+            </div>
+            
+            <!-- Stats row -->
+            <div class="hero-text grid grid-cols-3 gap-4 max-w-2xl mx-auto" style="animation-delay: 0.25s;">
+                <div class="text-center p-4 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/15">
+                    <div class="text-2xl font-bold text-white">100%</div>
+                    <div class="text-xs text-white/70 mt-1">Ẩn danh hoàn toàn</div>
+                </div>
+                <div class="text-center p-4 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/15">
+                    <div class="text-2xl font-bold text-emerald-300">&lt;5ph</div>
+                    <div class="text-xs text-white/70 mt-1">Phản hồi từ AI</div>
+                </div>
+                <div class="text-center p-4 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/15">
+                    <div class="text-2xl font-bold text-violet-300">24/7</div>
+                    <div class="text-xs text-white/70 mt-1">Hỗ trợ liên tục</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cam kết -->
+    <section class="py-20 bg-white dark:bg-[#1C1B1F]" id="commit">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-14">
+                <span class="inline-block px-4 py-1.5 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-full text-sm font-bold uppercase tracking-wider mb-4">Tại sao chọn chúng tôi?</span>
+                <h2 class="text-4xl font-bold text-gray-900 dark:text-[#E6E0E9] mb-4">Em không cô đơn</h2>
+                <p class="text-lg text-gray-500 dark:text-[#CAC4D0]">Chúng mình luôn sẵn sàng hỗ trợ em</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card card-hover bg-white dark:bg-[#2A2830] border border-gray-100 dark:border-[#3D3B42] p-8 rounded-3xl shadow hover:shadow-xl">
+                    <div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-3xl mb-6">🔒</div>
+                    <h4 class="text-xl font-bold text-gray-900 dark:text-[#E6E0E9] mb-3">100% Ẩn Danh</h4>
+                    <p class="text-gray-500 dark:text-[#CAC4D0] leading-relaxed">Không yêu cầu thông tin cá nhân. Toàn bộ dữ liệu được mã hóa hai đầu.</p>
+                </div>
+
+                <div class="card card-hover bg-white dark:bg-[#2A2830] border border-gray-100 dark:border-[#3D3B42] p-8 rounded-3xl shadow hover:shadow-xl">
+                    <div class="w-14 h-14 bg-violet-100 dark:bg-violet-900/50 text-violet-600 dark:text-violet-400 rounded-2xl flex items-center justify-center text-3xl mb-6">⚡</div>
+                    <h4 class="text-xl font-bold text-gray-900 dark:text-[#E6E0E9] mb-3">Phản hồi nhanh</h4>
+                    <p class="text-gray-500 dark:text-[#CAC4D0] leading-relaxed">AI hỗ trợ ngay lập tức. Báo cáo được chuyển đến nhà trường kịp thời.</p>
+                </div>
+
+                <div class="card card-hover bg-white dark:bg-[#2A2830] border border-gray-100 dark:border-[#3D3B42] p-8 rounded-3xl shadow hover:shadow-xl">
+                    <div class="w-14 h-14 bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 rounded-2xl flex items-center justify-center text-3xl mb-6">⚖️</div>
+                    <h4 class="text-xl font-bold text-gray-900 dark:text-[#E6E0E9] mb-3">Công bằng &amp; Minh bạch</h4>
+                    <p class="text-gray-500 dark:text-[#CAC4D0] leading-relaxed">Nghe ý kiến hai bên để đưa ra giải pháp tốt nhất cho học sinh.</p>
+                </div>
+            </div>
+            
+            <!-- Emergency contact -->
+            <div class="mt-12 p-6 bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950/30 dark:to-orange-950/30 border border-red-100 dark:border-red-800/40 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 rounded-2xl flex items-center justify-center text-2xl">📞</div>
+                    <div>
+                        <h5 class="font-bold text-gray-900 dark:text-[#E6E0E9]">Cần hỗ trợ khẩn cấp?</h5>
+                        <p class="text-sm text-gray-500 dark:text-[#CAC4D0]">Gọi ngay đường dây hỗ trợ miễn phí từ Thiếu niên</p>
+                    </div>
+                </div>
+                <a href="tel:111" class="flex-shrink-0 px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-bold text-lg transition shadow-lg shadow-red-200 dark:shadow-none">
+                    📞 Gọi 111 ngay
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+    <script src="js/load_components.js"></script>
+
+    <!-- Form đăng nhập -->
+    <div id="auth-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-[#211F26] rounded-3xl shadow-2xl w-full max-w-md max-h-full flex flex-col overflow-hidden">
+            
+            <!-- Đầu trang -->
+            <div class="px-8 pt-8 pb-4 border-b border-gray-100 dark:border-[#49454F]/50">
+                <!-- Logo branding -->
+                <div class="flex items-center justify-center gap-3 mb-6">
+                    <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center text-2xl shadow-lg">🛡️</div>
+                    <div class="text-left">
+                        <div class="text-lg font-extrabold text-gray-900 dark:text-[#E6E0E9] leading-tight">StopBully</div>
+                        <div class="text-xs text-emerald-600 font-medium">Hệ thống an toàn học đường</div>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-center text-gray-900 dark:text-[#E6E0E9]">Chào mừng trở lại!</h3>
+                
+                <!-- Thanh tiến trình -->
+                <div class="mt-6">
+                    <div class="h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                        <div id="progress-bar" 
+                            class="h-2 bg-emerald-600 rounded-full transition-all duration-700 ease-out w-1/2"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-500 mt-2">
+                        <span id="step-text">Bước 1/2</span>
+                        <span id="step-title">Thông tin trường học</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form nội dung -->
+            <div class="p-8 overflow-y-auto" id="form-content">
+                
+                <!-- Bước 1: Thông tin trường -->
+                <div id="step-1">
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-[#CAC4D0] mb-2">Thành phố / Tỉnh</label>
+                            <select id="city-select" 
+                                    class="input-focus w-full px-5 py-4 border border border-gray-300 dark:border-[#49454F]/50 rounded-2xl focus:outline-none bg-white dark:bg-[#211F26]">
+                                <option value="">Chọn thành phố / tỉnh</option>
+                                <option value="Hanoi">Hà Nội</option>
+                                <option value="HCM">TP. Hồ Chí Minh</option>
+                                <option value="Danang">Đà Nẵng</option>
+                                <option value="Haiphong">Hải Phòng</option>
+                                <option value="Cantho">Cần Thơ</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-[#CAC4D0] mb-2">Trường học</label>
+                            <select id="school-select" 
+                                    class="input-focus w-full px-5 py-4 border border border-gray-300 dark:border-[#49454F]/50 rounded-2xl focus:outline-none bg-white dark:bg-[#211F26]">
+                                <option value="">Chọn trường học</option>
+                                <option value="THCS_ABC">StopBullying</option>
+                            </select>
+                        </div>
+
+                        <button onclick="nextStep()" 
+                                class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-2xl transition">
+                            Tiếp tục
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Bước 2: Tài khoản -->
+                <div id="step-2" class="hidden">
+                    <div class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-[#CAC4D0] mb-2">Tên người dùng</label>
+                            <input type="text" id="username" 
+                                class="input-focus w-full px-5 py-4 border border-gray-300 dark:border-[#49454F] rounded-2xl focus:outline-none bg-white dark:bg-[#2A2830] text-gray-900 dark:text-[#E6E0E9] placeholder-gray-400 dark:placeholder-[#6B6876]" 
+                                placeholder="Nhập tên đăng nhập hoặc mã học sinh">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-[#CAC4D0] mb-2">Mật khẩu</label>
+                            <div class="relative">
+                                <input type="password" id="password" 
+                                    class="input-focus w-full px-5 py-4 pr-12 border border-gray-300 dark:border-[#49454F] rounded-2xl focus:outline-none bg-white dark:bg-[#2A2830] text-gray-900 dark:text-[#E6E0E9] placeholder-gray-400 dark:placeholder-[#6B6876]" 
+                                    placeholder="Nhập mật khẩu"
+                                    onkeydown="if(event.key==='Enter') loginSubmit()">
+                                <button type="button" onclick="togglePasswordVisibility()" 
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-[#CAC4D0] text-lg transition focus:outline-none"
+                                    title="Hiện/Ẩn mật khẩu">
+                                    <span id="eye-icon">👁️</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Thông báo lỗi -->
+                        <div id="login-error" class="hidden bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl">
+                            ❌ Tên đăng nhập hoặc mật khẩu không đúng!
+                        </div>
+
+                        <button onclick="loginSubmit()" id="login-btn"
+                                class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-2xl transition flex items-center justify-center gap-2">
+                            <span id="login-btn-text">Đăng nhập</span>
+                        </button>
+                        
+                        <button onclick="prevStep()" 
+                                class="w-full py-3 text-gray-600 dark:text-[#CAC4D0] hover:text-gray-800 dark:text-[#E6E0E9] font-medium transition">
+                            ← Quay lại
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="px-8 py-5 text-center text-sm text-gray-500 border-t">
+                <button onclick="closeModal()" class="hover:text-red-600 transition">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Code hiển thị các mục (cards, navbar) -->
+    <script>
+        const cards = document.querySelectorAll('.card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        cards.forEach(card => observer.observe(card));
+
+        // Nút 3 chấm dropdown
+        function toggleMoreMenu() {
+            document.getElementById('more-dropdown').classList.toggle('hidden');
+        }
+        function closeMoreMenu() {
+            document.getElementById('more-dropdown').classList.add('hidden');
+        }
+        document.addEventListener('click', function(e) {
+            const wrapper = document.getElementById('more-menu-wrapper');
+            if (wrapper && !wrapper.contains(e.target)) closeMoreMenu();
+        });
+    </script>
+
+    <!--Code hiệu ứng đăng nhập-->
+    <script>
+        let _redirectAfterLogin = null;
+
+        function openAuthModal(redirectHint) {
+            if (redirectHint) _redirectAfterLogin = redirectHint;
+            document.getElementById('auth-modal').classList.remove('hidden');
+            resetForm();
+        }
+
+        function closeModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+            _redirectAfterLogin = null;
+        }
+
+        let currentStep = 1;
+
+        function resetForm() {
+            currentStep = 1;
+            document.getElementById('step-1').classList.remove('hidden');
+            document.getElementById('step-2').classList.add('hidden');
+            const errDiv = document.getElementById('login-error');
+            if (errDiv) errDiv.classList.add('hidden');
+            updateProgress();
+        }
+
+        function nextStep() {
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.remove('hidden');
+            currentStep = 2;
+            updateProgress();
+            setTimeout(() => document.getElementById('username').focus(), 100);
+        }
+
+        function prevStep() {
+            document.getElementById('step-1').classList.remove('hidden');
+            document.getElementById('step-2').classList.add('hidden');
+            currentStep = 1;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progressBar = document.getElementById('progress-bar');
+            const stepText = document.getElementById('step-text');
+            const stepTitle = document.getElementById('step-title');
+            
+            if (currentStep === 1) {
+                progressBar.style.width = '50%';
+                stepText.textContent = 'Bước 1/2';
+                if(stepTitle) stepTitle.textContent = 'Thông tin trường học';
+            } else {
+                progressBar.style.width = '100%';
+                stepText.textContent = 'Bước 2/2';
+                if(stepTitle) stepTitle.textContent = 'Thông tin tài khoản';
+            }
+        }
+
+        function togglePasswordVisibility() {
+            const pwdInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+            if (!pwdInput || !eyeIcon) return;
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                eyeIcon.textContent = '🙈';
+            } else {
+                pwdInput.type = 'password';
+                eyeIcon.textContent = '👁️';
+            }
+        }
+        window.togglePasswordVisibility = togglePasswordVisibility;
+    </script>
+    <script type="module">
+        window.initAppAfterGate = async function() {
+            try {
+                // Dynamically import script.js
+                const module = await import('./js/script.js');
+                
+                // Gán các hàm lên window để file hiện tại và các script cũ có thể dùng tạm
+                window.db = module.db;
+                window.ref = module.ref;
+                window.get = module.get;
+                window.set = module.set;
+                window.child = module.child;
+                
+                // Khởi chạy logic tự động đăng nhập
+                const currentUser = localStorage.getItem('currentUser');
+                const role = localStorage.getItem('role');
+                if (currentUser && role) {
+                    if (role === 'admin') {
+                        window.location.href = 'Pages/Manage_page/Manage_page.html';
+                    } else if (role === 'teacher') {
+                        window.location.href = 'Pages/Admin_page/Admin_page.html';
+                    } else if (role === 'specialist') {
+                        window.location.href = 'Pages/Specialist_page/Chatbot_specialist.html';
+                    } else if (role === 'parent') {
+                        window.location.href = 'Pages/Parents_page/Parents_page.html';
+                    } else {
+                        window.location.href = 'Pages/User_page/User_page.html';
+                    }
+                }
+            } catch (error) {
+                console.error("Lỗi khởi tạo Firebase:", error);
+            }
+        };
+
+        // Tự động tải cấu hình Firebase và khởi tạo app khi trang load
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!sessionStorage.getItem('firebaseConfig')) {
+                try {
+                    const response = await fetch('http://localhost:5000/api/get-firebase-config');
+                    const data = await response.json();
+                    if (data.success && data.firebaseConfig) {
+                        sessionStorage.setItem('firebaseConfig', JSON.stringify(data.firebaseConfig));
+                        window.initAppAfterGate();
+                    } else {
+                        console.error("Không lấy được config:", data.error);
+                    }
+                } catch (error) {
+                    console.error("Lỗi kết nối tới backend:", error);
+                }
+            } else {
+                window.initAppAfterGate();
+            }
+        });
+
+        window.loginSubmit = async function() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const errDiv = document.getElementById('login-error');
+            const loginBtn = document.getElementById('login-btn');
+            const loginBtnText = document.getElementById('login-btn-text');
+            
+            if (errDiv) errDiv.classList.add('hidden');
+
+            if (!username || !password) {
+                if (errDiv) {
+                    errDiv.textContent = '⚠️ Vui lòng nhập đầy đủ thông tin!';
+                    errDiv.classList.remove('hidden');
+                }
+                return;
+            }
+
+            loginBtn.disabled = true;
+            loginBtnText.innerHTML = '<span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span> Đang đăng nhập...';
+
+            // Xử lý tài khoản Admin cố định
+            if (username === 'admin' && password === 'archisthebest3667') {
+                localStorage.setItem('role', 'admin');
+                localStorage.setItem('currentUser', 'admin');
+                localStorage.setItem('currentUserName', 'Quản trị viên Hệ thống (Admin)');
+                
+                // Sử dụng global ref, set từ window
+                if (window.set && window.ref && window.db) {
+                    window.set(window.ref(window.db, 'users/admin'), {
+                        name: 'Quản trị viên Hệ thống (Admin)',
+                        role: 'admin',
+                        password: 'archisthebest3667',
+                        phone: '0900000000',
+                        roleClass: 'Ban Quản Trị'
+                    }).catch(e => console.log('Firebase seed note:', e));
+                }
+
+                window.location.href = 'Pages/Manage_page/Manage_page.html';
+                return;
+            }
+
+            try {
+                if (!window.db || !window.get || !window.child) {
+                    throw new Error("Chưa kết nối CSDL!");
+                }
+                
+                const dbRef = window.ref(window.db);
+                const snapshot = await window.get(window.child(dbRef, `users/${username}`));
+                
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    if (userData.password === password) {
+                        localStorage.setItem('role', userData.role);
+                        localStorage.setItem('currentUser', username);
+                        localStorage.setItem('currentUserName', userData.name || username);
+
+                        if (userData.role === 'admin') {
+                            window.location.href = `Pages/Manage_page/Manage_page.html?id=${encodeURIComponent(username)}`;
+                        } else if (userData.role === 'teacher') {
+                            localStorage.setItem('UserClass', userData.roleClass || '');
+                            window.location.href = `Pages/Admin_page/Admin_page.html?id=${encodeURIComponent(username)}`;
+                        } else if (userData.role === 'specialist') {
+                            window.location.href = `Pages/Specialist_page/Chatbot_specialist.html?id=${encodeURIComponent(username)}`;
+                        } else if (userData.role === 'parent') {
+                            window.location.href = `Pages/Parents_page/Parents_page.html?id=${encodeURIComponent(username)}`;
+                        } else {
+                            const redirect = window._redirectAfterLogin;
+                            if (redirect === 'chatbot') {
+                                window.location.href = `Pages/User_page/Chatbot_page.html?id=${encodeURIComponent(username)}`;
+                            } else {
+                                window.location.href = `Pages/User_page/User_page.html?id=${encodeURIComponent(username)}`;
+                            }
+                        }
+                    } else {
+                        if (errDiv) {
+                            errDiv.textContent = '❌ Mật khẩu không chính xác!';
+                            errDiv.classList.remove('hidden');
+                        }
+                    }
+                } else {
+                    if (errDiv) {
+                        errDiv.textContent = '❌ Tài khoản không tồn tại!';
+                        errDiv.classList.remove('hidden');
+                    }
+                }
+            } catch (error) {
+                console.error(error);
+                if (errDiv) {
+                    errDiv.textContent = '❌ Lỗi kết nối! Vui lòng thử lại.';
+                    errDiv.classList.remove('hidden');
+                }
+            } finally {
+                loginBtn.disabled = false;
+                loginBtnText.textContent = 'Đăng nhập';
+            }
+        };
+    </script>
+</body>
+</html>
+
+

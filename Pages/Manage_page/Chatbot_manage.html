@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỗ trợ học sinh</title>
+
+    <link rel="stylesheet" href="/css/Admin_css/navbar_admin.css">
+    
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@400;500;600;700&display=swap">
+    
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = { darkMode: 'class',
+            content: [],
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Be Vietnam', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 4px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 10px;
+        }
+        .blink-bg {
+            animation: blinkBg 1.5s infinite;
+        }
+        @keyframes blinkBg {
+            0% { background-color: rgba(234, 179, 8, 0.1); }
+            50% { background-color: rgba(234, 179, 8, 0.3); }
+            100% { background-color: rgba(234, 179, 8, 0.1); }
+        }
+    </style>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body class="font-sans bg-gray-50 dark:bg-[#141218] text-gray-800 dark:text-[#E6E0E9]">
+    <div id="navbar" class="shrink-0"></div>
+
+    
+    </div>
+    <!-- Main Container - 3 Columns -->
+    <div class="flex-1 flex w-full max-w-[1600px] mx-auto h-[calc(100vh-100px)] overflow-hidden bg-gray-50 dark:bg-[#141218] p-2 lg:p-4 gap-4">
+        
+        <!-- CỘT 1: DANH SÁCH HỌC SINH -->
+        <aside class="w-80 bg-white dark:bg-[#211F26] border border-gray-200 dark:border-[#49454F]/50 rounded-3xl flex flex-col overflow-hidden shadow-sm shrink-0">
+            <div class="p-4 border-b border-gray-100 dark:border-[#49454F]/50 bg-gray-50 dark:bg-[#141218] flex justify-between items-center shrink-0">
+                <h3 class="font-bold text-gray-800 dark:text-[#E6E0E9] text-sm uppercase tracking-wide">Cần hỗ trợ</h3>
+                <span id="student-count" class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full shadow-sm">0</span>
+            </div>
+            
+            <div id="student-list" class="flex-1 overflow-y-auto p-3 space-y-2 scrollbar-thin">
+                <div class="text-center text-[15px] text-gray-400 py-4">Đang tải dữ liệu...</div>
+            </div>
+        </aside>
+
+        <!-- CỘT 2: KHUNG CHAT VỚI HỌC SINH -->
+        <main class="flex-1 min-h-0 bg-white dark:bg-[#211F26] border border-gray-200 dark:border-[#49454F]/50 rounded-3xl flex flex-col overflow-hidden shadow-sm">
+            <!-- Header Chat -->
+            <div class="p-4 border-b border-gray-100 dark:border-[#49454F]/50 bg-white dark:bg-[#211F26] flex justify-between items-center shrink-0 shadow-sm z-10 relative">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 text-xl font-bold" id="current-chat-avatar">👤</div>
+                    <div>
+                        <h3 class="font-bold text-gray-800 dark:text-[#E6E0E9] text-base" id="current-chat-name">Chọn một học sinh</h3>
+                        <p class="text-xs text-gray-500 dark:text-[#CAC4D0] font-mono mt-0.5" id="current-chat-class">---</p>
+                    </div>
+                </div>
+                <!-- Nút Đổi trạng thái -->
+                <button id="btn-resolve-chat" onclick="resolveCurrentChat()" class="hidden px-4 py-2 bg-green-50 hover:bg-green-100 text-green-700 border border-green-200 rounded-xl text-sm font-bold transition flex items-center gap-1.5 shadow-sm active:scale-95">
+                    <span>✓</span> Đánh dấu Đã xử lý
+                </button>
+            </div>
+
+            <!-- Chat messages -->
+            <div id="student-chat-box" class="min-h-0 flex-1 p-6 overflow-y-auto space-y-4 scrollbar-thin bg-gray-50 dark:bg-[#141218]/50 relative">
+                <div class="absolute inset-0 flex items-center justify-center opacity-50" style="background-image: radial-gradient(#e5e7eb 1px, transparent 1px); background-size: 20px 20px;"></div>
+                <div class="text-center text-base text-gray-500 dark:text-[#CAC4D0] py-10 relative z-10 font-medium">Hãy chọn một học sinh từ danh sách bên trái để bắt đầu hỗ trợ.</div>
+            </div>
+
+            <!-- Form gửi tin nhắn -->
+            <div class="p-4 border-t border-gray-100 dark:border-[#49454F]/50 bg-white dark:bg-[#211F26] shrink-0 relative z-10">
+                <form id="student-chat-form" onsubmit="handleStudentChatSubmit(event)" class="flex gap-2 items-center bg-gray-50 dark:bg-[#141218] border border-gray-200 dark:border-[#49454F]/50 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 rounded-2xl px-4 py-2.5 transition duration-200">
+                    <input type="text" id="student-chat-input" disabled placeholder="Nhập tin nhắn phản hồi học sinh..." class="flex-1 bg-transparent border-none outline-none text-[15px] text-gray-800 dark:text-[#E6E0E9] placeholder-gray-400">
+                    <button type="submit" id="student-chat-submit" disabled class="w-10 h-10 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-xl flex items-center justify-center shadow-md transition active:scale-95 shrink-0 text-lg">
+                        ➤
+                    </button>
+                </form>
+            </div>
+        </main>
+
+        <!-- CỘT 3: TRỢ LÝ AI -->
+        <aside class="w-[340px] bg-white dark:bg-[#211F26] border border-gray-200 dark:border-[#49454F]/50 rounded-3xl flex flex-col overflow-hidden shadow-sm shrink-0">
+            <div class="p-4 border-b border-gray-100 dark:border-[#49454F]/50 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 flex justify-between items-center shrink-0">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 text-white flex items-center justify-center text-sm shadow">🤖</div>
+                    <h3 class="font-bold text-indigo-900 dark:text-indigo-200 text-sm uppercase tracking-wide">AI Cố Vấn</h3>
+                </div>
+            </div>
+
+            <div class="p-3 border-b border-gray-100 dark:border-[#49454F]/50 bg-white dark:bg-[#211F26] shrink-0">
+                <button onclick="analyzeCurrentChat()" id="btn-analyze-chat" disabled class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl text-sm font-bold shadow-md transition active:scale-95 flex items-center justify-center gap-2">
+                    <span class="text-base">✨</span> Phân tích & Gợi ý trả lời
+                </button>
+            </div>
+
+            <!-- Chat với AI -->
+            <div id="ai-chat-box" class="flex-1 p-4 overflow-y-auto space-y-4 scrollbar-thin text-[15px] bg-gray-50 dark:bg-[#141218]/30">
+                <div class="flex items-start gap-2.5 max-w-[90%]">
+                    <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white shrink-0 shadow-sm text-sm">🤖</div>
+                    <div class="bg-white dark:bg-[#2B2930] border border-gray-100 dark:border-[#49454F]/50 text-gray-800 dark:text-[#E6E0E9] px-4 py-3 rounded-2xl rounded-tl-none leading-relaxed shadow-sm">
+                        Chào Thầy/Cô. Em là AI phân tích. Hãy chọn một học sinh và bấm <strong>"Phân tích & Gợi ý trả lời"</strong> để em đưa ra lời khuyên nhé!
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Typing Indicator (Hidden by default) -->
+            <div id="ai-typing" class="hidden px-4 pb-2 bg-gray-50 dark:bg-[#141218]/30 shrink-0">
+                <div class="flex items-start gap-2.5 max-w-[90%]">
+                    <div class="w-8 h-8 rounded-xl bg-indigo-100 flex items-center justify-center shrink-0 text-sm">🤖</div>
+                    <div class="bg-white dark:bg-[#211F26] border border-gray-100 dark:border-[#49454F]/50 px-4 py-3 rounded-2xl rounded-tl-none flex items-center gap-1.5 shadow-sm">
+                        <span class="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style="animation-delay: 0s"></span>
+                        <span class="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style="animation-delay: 0.15s"></span>
+                        <span class="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style="animation-delay: 0.3s"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form gửi AI -->
+            <div class="p-3 border-t border-gray-100 dark:border-[#49454F]/50 bg-white dark:bg-[#211F26] shrink-0">
+                <form id="ai-chat-form" onsubmit="handleAIChatSubmit(event)" class="flex gap-2 items-center bg-gray-50 dark:bg-[#141218] border border-gray-200 dark:border-[#49454F]/50 focus-within:border-purple-500 focus-within:ring-2 focus-within:ring-purple-500/20 rounded-xl px-3 py-2 transition duration-200">
+                    <input type="text" id="ai-chat-input" placeholder="Hỏi AI thêm..." class="flex-1 bg-transparent border-none outline-none text-sm text-gray-800 dark:text-[#E6E0E9] placeholder-gray-400">
+                    <button type="submit" class="w-8 h-8 bg-purple-600 hover:bg-purple-700 text-white rounded-lg flex items-center justify-center shadow transition active:scale-95 shrink-0">
+                        ➤
+                    </button>
+                </form>
+            </div>
+        </aside>
+    </div>
+
+    <div id="footer"></div>
+    <!-- Lệnh load các thành phần ẩn -->
+    <div id="modal-container"></div>
+
+    <script type="module" src="/js/Manage_js/Chatbot_manage.js"></script>
+    <script src="/js/Manage_js/load_components.js"></script>
+    <script src="/js/Admin_js/Setting_admin.js"></script>
+    <script src="/js/navbar.js"></script>
+
+    <div id="tailwind-safelist" class="hidden dark:bg-[#2B2930] dark:bg-teal-900/30 dark:border-teal-800 dark:text-teal-400 dark:bg-red-900/40 dark:border-red-700/50 dark:bg-amber-900/40 dark:border-amber-700/50 dark:bg-[#36343B] dark:border-indigo-500/50 dark:hover:bg-[#36343B] dark:bg-gray-800 dark:bg-gray-600 dark:border-gray-600 dark:border-[#49454F]/50 dark:bg-[#141218] dark:bg-[#211F26] dark:text-[#E6E0E9]"></div>
+</body>
+</html>

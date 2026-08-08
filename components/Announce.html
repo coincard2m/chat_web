@@ -1,0 +1,313 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Báo - An Toàn Học Đường</title>
+    
+    <!-- Google Font: Sử dụng phông Be Vietnam đồng bộ -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@400;500;600;700&display=swap">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class',
+            theme: { extend: { fontFamily: { sans: ['Be Vietnam', 'sans-serif'] } } }
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-50 dark:bg-[#141218] text-gray-800 dark:text-[#E6E0E9] antialiased min-h-screen flex flex-col justify-between">
+    
+    <!-- Ticker bảo mật đầu trang -->
+    <div class="bg-emerald-600 text-white text-[15px] py-3 px-4 text-center font-medium tracking-wide">
+        Bạn đang ở trong vùng an toàn - Mọi dữ liệu cá nhân hoàn toàn bảo mật và mã hóa hai đầu
+    </div>
+
+    <!-- Nút Hamburger đóng mở sidebar -->
+    <button id="sidebar-toggle" class="fixed top-4 left-4 z-[60] w-11 h-11 bg-white dark:bg-[#211F26] shadow-lg rounded-2xl flex items-center justify-center text-2xl hover:bg-gray-100 dark:hover:bg-[#36343B] active:bg-gray-200 transition">☰</button>
+
+    <!-- Sidebar bên trái -->
+    <aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white dark:bg-[#211F26] shadow-xl z-50 border-r border-gray-100 dark:border-[#49454F]/50 flex flex-col -translate-x-full transition-all duration-300 ease-out">
+        <div class="p-5 border-b flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-emerald-600 text-white rounded-2xl flex items-center justify-center text-2xl font-bold">🏫</div>
+                <div>
+                    <h1 class="text-xl font-bold text-gray-900 dark:text-[#E6E0E9]">StopBullying</h1>
+                    <p class="text-sm text-emerald-600">Bảo vệ học sinh</p>
+                </div>
+            </div>
+            <button id="close-sidebar" class="w-8 h-8 flex items-center justify-center text-xl text-gray-500 dark:text-[#CAC4D0] hover:bg-gray-100 dark:bg-[#2B2930] dark:hover:bg-[#36343B] rounded-xl transition">✕</button>
+        </div>
+        <div class="flex-1 p-4 overflow-y-auto">
+            <nav class="space-y-1">
+                <a href="#" class="flex items-center gap-3 px-5 py-3 rounded-2xl text-gray-700 dark:text-[#CAC4D0] hover:bg-emerald-50 hover:text-emerald-700 transition">🏠 Trang chủ</a>
+                <a href="tuyen_truyen.html" class="flex items-center gap-3 px-5 py-3 rounded-2xl text-gray-700 dark:text-[#CAC4D0] hover:bg-emerald-50 hover:text-emerald-700 transition">📢 Bài tuyên truyền</a>
+                <a href="gui_bao_cao.html" class="flex items-center gap-3 px-5 py-3 rounded-2xl text-gray-700 dark:text-[#CAC4D0] hover:bg-emerald-50 hover:text-emerald-700 transition">✍️ Gửi báo cáo</a>
+                <a href="theo_doi.html" class="flex items-center gap-3 px-5 py-3 rounded-2xl text-gray-700 dark:text-[#CAC4D0] hover:bg-emerald-50 hover:text-emerald-700 transition">📋 Theo dõi</a>
+                <a href="#" class="flex items-center gap-3 px-5 py-3 bg-emerald-50 text-emerald-700 rounded-2xl font-semibold transition">🪧 Thông báo</a>
+                <a href="tai_khoan.html" class="flex items-center gap-3 px-5 py-3 rounded-2xl text-gray-700 dark:text-[#CAC4D0] hover:bg-emerald-50 hover:text-emerald-700 transition">👤 Tài khoản</a>
+            </nav>
+        </div>
+        <div class="p-4 border-t">
+            <a href="tai_khoan.html" class="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 rounded-2xl transition hover:bg-emerald-100">
+                <div class="text-2xl">👤</div>
+                <div class="flex-1 text-left">
+                    <p class="font-semibold text-[15px] text-gray-900 dark:text-[#E6E0E9]">Nguyễn Văn A</p>
+                    <p class="text-sm text-gray-500 dark:text-[#CAC4D0]">Lớp 9A3</p>
+                </div>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Thân trang (Giao diện chính) -->
+    <main class="flex-1 max-w-2xl mx-auto w-full px-4 py-8 md:py-12 mt-12">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+            <div class="space-y-1.5 text-left">
+                <span class="inline-block px-3 py-1 bg-emerald-100 dark:bg-emerald-900/40 rounded-full text-xs font-bold text-emerald-800 dark:text-emerald-400 uppercase tracking-wide">🪧 Trung Tâm Tin Tức</span>
+                <h1 class="text-2xl md:text-3xl font-extrabold text-gray-950 dark:text-[#E6E0E9] tracking-tight">Thông Báo Học Đường</h1>
+                <p class="text-gray-500 dark:text-[#CAC4D0] text-sm md:text-[15px]">Nhận thông tin khẩn cấp, cập nhật quy chế và thông điệp bảo mật từ nhà trường.</p>
+            </div>
+            <button onclick="markAllAsRead()" class="self-start md:self-auto px-4 py-2 border border-gray-200 dark:border-[#49454F]/50 hover:border-gray-300 bg-white dark:bg-[#211F26] rounded-xl text-sm font-bold text-gray-700 dark:text-[#CAC4D0] transition active:scale-95 shadow-2xs">✓ Đọc tất cả</button>
+        </div>
+
+        <!-- Thanh lọc danh mục thông báo -->
+        <div class="flex gap-2 overflow-x-auto pb-3 mb-6 scrollbar-none">
+            <button onclick="filterCategory('all')" id="tab-all" class="tab-btn px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold transition whitespace-nowrap shrink-0">Tất cả</button>
+            <button onclick="filterCategory('urgent')" id="tab-urgent" class="tab-btn px-4 py-2 bg-gray-100 dark:bg-[#2B2930] text-gray-600 dark:text-[#CAC4D0] hover:bg-gray-200 rounded-xl text-xs font-bold transition whitespace-nowrap shrink-0">⚠️ Khẩn cấp</button>
+            <button onclick="filterCategory('general')" id="tab-general" class="tab-btn px-4 py-2 bg-gray-100 dark:bg-[#2B2930] text-gray-600 dark:text-[#CAC4D0] hover:bg-gray-200 rounded-xl text-xs font-bold transition whitespace-nowrap shrink-0">📢 Chung</button>
+            <button onclick="filterCategory('system')" id="tab-system" class="tab-btn px-4 py-2 bg-gray-100 dark:bg-[#2B2930] text-gray-600 dark:text-[#CAC4D0] hover:bg-gray-200 rounded-xl text-xs font-bold transition whitespace-nowrap shrink-0">🔒 Bảo mật</button>
+        </div>
+
+        <!-- Danh sách các thẻ thông báo hiển thị động -->
+        <div id="notifications-list" class="space-y-4">
+            <!-- Được render thông qua hàm JS bên dưới -->
+        </div>
+    </main>
+
+    <!-- Hộp thoại Modal xem chi tiết thông báo -->
+    <div id="notif-modal" class="fixed inset-0 bg-black/50 z-[100] backdrop-blur-xs hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-[#211F26] w-full max-w-lg rounded-3xl shadow-2xl p-6 md:p-8 space-y-4 transform transition-all scale-95 duration-300">
+            <div class="flex items-start justify-between">
+                <span id="modal-tag" class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">Mức độ</span>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-700 dark:text-[#CAC4D0] bg-gray-50 dark:bg-[#141218] hover:bg-gray-100 dark:hover:bg-[#36343B] p-1.5 rounded-lg border transition">✕</button>
+            </div>
+            <div class="space-y-2">
+                <h2 id="modal-title" class="text-lg md:text-xl font-extrabold text-gray-900 dark:text-[#E6E0E9] leading-tight">Tiêu đề thông báo</h2>
+                <p id="modal-date" class="text-sm text-gray-400 font-medium">09/07/2026</p>
+            </div>
+            <p id="modal-body" class="text-sm md:text-[15px] text-gray-600 dark:text-[#CAC4D0] leading-relaxed pt-2 whitespace-pre-line border-t border-gray-100 dark:border-[#49454F]/50">Nội dung chi tiết thông báo...</p>
+            <div class="pt-4 flex justify-end">
+                <button onclick="closeModal()" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold transition active:scale-95 shadow">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 w-full">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-10">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 bg-emerald-600 text-white rounded-xl flex items-center justify-center text-xl">🛡️</div>
+                    <h3 class="text-xl font-bold text-white">AnToàn HọcĐường</h3>
+                </div>
+                <p class="text-sm leading-relaxed">Nền tảng hỗ trợ bảo vệ học sinh Việt Nam an toàn khỏi bạo lực tinh thần, mạng và thể chất.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-4 text-xs uppercase">Hỗ trợ khẩn cấp</h4>
+                <p class="text-sm text-emerald-400 font-bold">111 - Tổng đài Trẻ em</p>
+                <p class="text-sm text-emerald-400 font-bold mt-1">113 - Công an khẩn cấp</p>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-4 text-xs uppercase">Danh mục</h4>
+                <ul class="space-y-1 text-sm">
+                    <li><a href="tuyen_truyen.html" class="hover:text-white">Cẩm nang tuyên truyền</a></li>
+                    <li><a href="gui_bao_cao.html" class="hover:text-white">Gửi báo cáo ẩn danh</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-4 text-xs uppercase">Liên hệ trường</h4>
+                <p class="text-sm">SĐT: 0901234569</p>
+                <p class="text-sm mt-1">Email: thcsABC@gmail.edu.vn</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Logic JS tối giản điều khiển nội dung hiển thị -->
+    <script>
+        // 1. Quản lý Sidebar
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('sidebar-toggle');
+        const closeBtn = document.getElementById('close-sidebar');
+
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.remove('-translate-x-full');
+            toggleBtn.style.display = 'none';
+        });
+
+        function closeSidebar() {
+            sidebar.classList.add('-translate-x-full');
+            toggleBtn.style.display = 'flex';
+        }
+
+        if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !toggleBtn.contains(e.target)) closeSidebar();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeSidebar();
+        });
+
+        // 2. Cơ sở dữ liệu thông báo (Dễ dàng thay đổi trực tiếp tại đây)
+        const NOTIFICATIONS = [
+            {
+                id: "notif-1",
+                title: "Khảo sát về tình trạng an toàn và bắt nạt trên môi trường mạng",
+                summary: "Nhà trường tổ chức đợt khảo sát ẩn danh đối với toàn thể học sinh nhằm lắng nghe tâm tư và phòng ngừa các rủi ro.",
+                body: "Kính gửi các em học sinh,\n\nĐể phục vụ xây dựng môi trường học đường thân thiện và phòng tránh các nguy cơ đe dọa trực tuyến (cyberbullying), Ban giám hiệu StopBullying phối hợp với các chuyên gia tâm lý tổ chức đợt khảo sát trực tuyến hoàn toàn ẩn danh.\n\nThời gian thực hiện: Từ nay đến hết ngày 15/07/2026.\nLink khảo sát sẽ được gửi trực tiếp qua hòm thư lớp học của các em. Mọi thông tin các em chia sẻ đều được hệ thống bảo mật tuyệt đối.",
+                date: "09/07/2026",
+                category: "general", // options: 'urgent', 'general', 'system'
+                isRead: false
+            },
+            {
+                id: "notif-2",
+                title: "[KHẨN CẤP] Cảnh giác trước hành vi lừa đảo và bạo lực bên ngoài cổng trường",
+                summary: "Phát hiện một số nhóm đối tượng lạ mặt tụ tập có hành vi lôi kéo, đe dọa học sinh tại khu vực ngõ phụ sau giờ tan học.",
+                body: "Ban Giám Hiệu nhà trường xin thông báo khẩn:\n\nGần đây xuất hiện tình trạng một số thanh thiếu niên lạ mặt hay tụ tập tại khu vực cổng sau và ngõ phụ cạnh StopBullying vào giờ tan tầm (khoảng 17h00 - 17h30).\n\nYêu cầu đối với học sinh:\n1. Di chuyển nhanh ra cổng chính sau khi tan trường, không đi một mình qua các ngõ hẹp và tối.\n2. Tuyệt đối không nói chuyện, nhận đồ ăn, đồ uống hoặc đi theo lời rủ rê của người lạ.\n3. Nếu phát hiện biểu hiện khả nghi hoặc bị đe dọa, hãy quay lại phòng bảo vệ trường ngay lập tức và báo cáo qua hệ thống này.",
+                date: "08/07/2026",
+                category: "urgent",
+                isRead: false
+            },
+            {
+                id: "notif-3",
+                title: "Hệ thống bảo vệ danh tính và mã hóa báo cáo đã nâng cấp thành công",
+                summary: "Hệ thống An Toàn Học Đường hoàn tất đợt bảo trì nâng cấp công nghệ mã hóa đầu cuối, giúp học sinh tuyệt đối an tâm khi báo cáo.",
+                body: "Thông báo nâng cấp hệ thống kỹ thuật:\n\nChúng tôi đã hoàn thành tích hợp công nghệ mã hóa tiên tiến nhất vào biểu mẫu báo cáo. Hiện tại:\n- Tên và lớp học của em sẽ tự động chuyển hóa thành các đoạn mã bảo mật khi em bật chế độ 'Gửi báo cáo ẩn danh'.\n- Ngay cả các kỹ sư quản trị hệ thống cũng không thể truy vết ngược lại danh tính của em nếu không có sự cấp phép từ Ban Giám Hiệu.\n- Vui lòng lưu lại Mã Báo Cáo và Mã PIN sau khi gửi để có thể tra cứu kết quả một cách độc lập.",
+                date: "06/07/2026",
+                category: "system",
+                isRead: true
+            }
+        ];
+
+        // Biến lọc hiện tại
+        let currentFilter = 'all';
+
+        // 3. Logic hiển thị
+        const CATEGORIES_STYLE = {
+            urgent: { label: "⚠️ Khẩn cấp", bg: "bg-red-50 text-red-700 border-red-100", dot: "bg-red-500" },
+            general: { label: "📢 Chung", bg: "bg-blue-50 text-blue-700 border-blue-100", dot: "bg-blue-500" },
+            system: { label: "🔒 Bảo mật", bg: "bg-emerald-50 text-emerald-700 border-emerald-100", dot: "bg-emerald-500" }
+        };
+
+        function renderNotifications() {
+            const listContainer = document.getElementById('notifications-list');
+            listContainer.innerHTML = '';
+
+            const filtered = NOTIFICATIONS.filter(notif => {
+                return currentFilter === 'all' || notif.category === currentFilter;
+            });
+
+            if (filtered.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="text-center py-12 bg-white dark:bg-[#211F26] rounded-3xl border border-gray-100 dark:border-[#49454F]/50 shadow-2xs">
+                        <div class="text-4xl mb-2">📭</div>
+                        <p class="text-sm text-gray-400 font-medium">Không có thông báo nào trong danh mục này.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(notif => {
+                const style = CATEGORIES_STYLE[notif.category];
+                const readClass = notif.isRead ? 'opacity-65' : '';
+                const unreadIndicator = !notif.isRead ? `
+                    <span class="w-2.5 h-2.5 rounded-full ${style.dot} absolute top-6 right-6 animate-ping"></span>
+                    <span class="w-2.5 h-2.5 rounded-full ${style.dot} absolute top-6 right-6"></span>
+                ` : '';
+
+                const cardHtml = `
+                    <div onclick="openNotification('${notif.id}')" class="relative bg-white dark:bg-[#211F26] border border-gray-100 dark:border-[#49454F]/50 hover:border-emerald-200 rounded-3xl p-5 md:p-6 shadow-2xs hover:shadow-xs transition duration-200 cursor-pointer text-left flex flex-col justify-between gap-3 ${readClass}">
+                        ${unreadIndicator}
+                        <div class="space-y-2 pr-6">
+                            <div class="flex items-center gap-2">
+                                <span class="px-3 py-1 text-xs font-bold uppercase tracking-wide border rounded-full ${style.bg}">${style.label}</span>
+                                <span class="text-sm text-gray-400 font-medium">${notif.date}</span>
+                            </div>
+                            <h3 class="text-[15px] md:text-base font-bold text-gray-900 dark:text-[#E6E0E9] tracking-tight leading-snug hover:text-emerald-700 dark:hover:text-emerald-400 transition">${notif.title}</h3>
+                            <p class="text-sm text-gray-500 dark:text-[#CAC4D0] leading-relaxed line-clamp-2">${notif.summary}</p>
+                        </div>
+                        <div class="pt-3 border-t border-gray-50 flex justify-end">
+                            <span class="text-sm font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 flex items-center gap-1">Đọc chi tiết ➔</span>
+                        </div>
+                    </div>
+                `;
+                listContainer.insertAdjacentHTML('beforeend', cardHtml);
+            });
+        }
+
+        // Lọc danh mục
+        function filterCategory(category) {
+            currentFilter = category;
+            
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.className = "tab-btn px-4 py-2 bg-gray-100 text-gray-600 dark:text-[#CAC4D0] hover:bg-gray-200 rounded-xl text-xs font-bold transition whitespace-nowrap shrink-0";
+            });
+
+            const activeBtn = document.getElementById(`tab-${category}`);
+            if (activeBtn) {
+                activeBtn.className = "tab-btn px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold transition whitespace-nowrap shrink-0";
+            }
+
+            renderNotifications();
+        }
+
+        // Đọc thông báo
+        function openNotification(id) {
+            const notif = NOTIFICATIONS.find(n => n.id === id);
+            if (!notif) return;
+
+            // Đánh dấu đã đọc
+            notif.isRead = true;
+            renderNotifications();
+
+            // Mở modal
+            const modal = document.getElementById('notif-modal');
+            const style = CATEGORIES_STYLE[notif.category];
+
+            const modalTag = document.getElementById('modal-tag');
+            modalTag.textContent = style.label;
+            modalTag.className = `px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wide border ${style.bg}`;
+
+            document.getElementById('modal-title').textContent = notif.title;
+            document.getElementById('modal-date').textContent = `Đăng ngày: ${notif.date} • Hệ thống bảo mật StopBullying`;
+            document.getElementById('modal-body').textContent = notif.body;
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('notif-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Đánh dấu tất cả đã đọc
+        function markAllAsRead() {
+            NOTIFICATIONS.forEach(n => n.isRead = true);
+            renderNotifications();
+        }
+
+        // Đóng modal khi click ra ngoài
+        const modalContainer = document.getElementById('notif-modal');
+        modalContainer.addEventListener('click', (e) => {
+            if (e.target === modalContainer) closeModal();
+        });
+
+        // Khởi động render thông báo đầu tiên
+        window.addEventListener('DOMContentLoaded', () => {
+            renderNotifications();
+        });
+    </script>
+</body>
+</html>
+
